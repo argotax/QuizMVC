@@ -1,0 +1,78 @@
+@import "common.css";
+
+button:focus {
+  outline: 0;
+}
+
+.block-page {
+  background-image: linear-gradient(to bottom, orange, yellow);
+  height: 100vh;
+  width: 100vw;
+}
+.modal .connect-error, .modal .inscription-error {
+  display: none;
+}
+
+.block-button {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.block-button .button {
+  color: white;
+  border: 2px solid white;
+  border-radius: 3px;
+  background-color: transparent;
+  padding: 20px 0px 20px 0px;
+  width: 15%;
+  font-family: 'titleFont', sans-serif, 'Arial';
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px 0px 10px 0px;
+}
+
+.modal .modal-content {
+  background-image: linear-gradient(to bottom, indianred, lightpink);
+}
+.modal .modal-header {
+  position: relative;
+}
+.modal .modal-header .signup-error {
+  width: 60%;
+  text-align: center;
+  position: absolute;
+  padding: 8px 12px 8px 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.modal .modal-header .signin-error {
+  width: 60%;
+  text-align: center;
+  position: absolute;
+  padding: 8px 5px 8px 5px;
+  top: 50%;
+  left: 57%;
+  transform: translate(-50%, -50%);
+}
+.modal .modal-title, .modal-header button, .modal label {
+  color: white;
+}
+.modal .btn-modal {
+  background-color: indianred;
+  border: none;
+}
+.modal .select-country {
+  display: flex;
+  flex-direction: column;
+}
+
+.country-select .flag-dropdown {
+  width: 100%;
+}
+.country-select .flag-dropdown .selected-flag {
+  width: 100%;
+}

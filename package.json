@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor -e js,ejs ./bin/www",
+    "start": "supervisor -e js,twig ./bin/www",
     "sequelize": "./node_modules/.bin/sequelize"
   },
   "dependencies": {

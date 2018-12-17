@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <title>BroQuiz</title>
     <link rel="icon" href="/image/icon/favicon.ico" />
-    <link rel="stylesheet" href="/vendors/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendors/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendors/css/countrySelect.min.css">
-    <link rel="stylesheet" href="style">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/vendors/fontawesome/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
+    {% block css %}{% endblock %}
+
   </head>
 
 
   <body>
-    {% block body %}{% endblock %}
+    {% block body%}{% endblock %}
+    {% block script%}{% endblock %}
   </body>
 </html>
