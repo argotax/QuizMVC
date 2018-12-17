@@ -1,6 +1,153 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>{{title}}</h1>
-  <p>Welcome to {{title}}</p>
+
 {% endblock %}
+
+
+<div class="block-page">
+  <div class="block-title">
+    <h1 class="title">BroQuiz</h1>
+  </div>
+  <div class="block-button">
+    <button class="button" type="button" data-toggle="modal" data-target="#modalSignin">Se connecter</button>
+    <button class="button" type="button" data-toggle="modal" data-target="#modalSignup">S'inscrire</button>
+  </div>
+</div>
+
+<!-- Modal Signin -->
+<div class="modal fade" id="modalSignin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSigninTitle">Connexion</h5>
+        <div class="alert alert-danger signin-error mb-0 connect-error" id="connectError"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="signin()" id="signinForm">
+          <div class="row mb-4">
+            <div class="col-12">
+              <label for="connect-login">Pseudo / Email</label>
+              <input type="text" class="form-control" id="connect-login" placeholder="Entrer votre pseudo ou votre email" name="connectLogin" autofocus>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-12">
+              <label for="connect-password">Mot de passe</label>
+              <input type="password" class="form-control" id="connect-password" placeholder="Entrer votre mot de passe" name="connectPassword">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary btn-modal" onclick="signin()">Valider</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Signup -->
+<div class="modal fade bd-example-modal-lg" id="modalSignup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSignupTitle">Inscription</h5>
+        <div class="alert alert-danger signup-error mb-0 inscription-error" id="inscriptionError"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form onsubmit="signup()" id="signupForm">
+        <div class="modal-body">
+          <div class="row mb-4">
+            <div class="col-6">
+              <label for="login">Pseudo</label>
+              <input type="text" class="form-control" id="login" placeholder="Entrer votre pseudo" name="login" autofocus>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <label for="password">Mot de passe</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe">
+            </div>
+            <div class="col">
+              <label for="confpassword">Confirmation mot de passe</label>
+              <input type="password" class="form-control" id="confpassword" name="confpassword" placeholder="Entrer votre mot de passe">
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" id="mail" name="email" placeholder="Entrer votre email"              >
+            </div>
+            <div class="col">
+              <label for="confemail">Confirmation email</label>
+              <input type="text" class="form-control" id="confmail" name="confemail" placeholder="Entrer votre email">
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-6 select-country">
+              <label for="country">Pays</label>
+              <input id="country" type="text" class="form-control" name="country">
+		          <label for="country" style="display:none;">Select a country here...</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary btn-modal" onclick="signup()">Valider</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/vendors/js/jquery-3.3.1.min.js" charset="utf-8"></script>
+<script src="/vendors/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="/vendors/js/countrySelect.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var socket = io.connect('http://10.2.4.26:8080');
+
+  $("#signinForm").submit(function(e) {
+    e.preventDefault();
+  });
+  $("#signupForm").submit(function(e) {
+    e.preventDefault();
+  });
+
+  $("#country").countrySelect({
+    preferredCountries: ['fr']
+  });
+
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).find('[autofocus]').focus();
+  });
+
+  function signin(){
+    socket.emit('signin', $('#connect-login').val(), $('#connect-password').val());
+  }
+  function signup(){
+    socket.emit('signup', $('#login').val(), $('#password').val(), $('#confpassword').val(), $('#mail').val(), $('#confmail').val(), $('#country').val());
+  }
+
+  socket.on('redirect', function(destination) {
+    window.location.href = destination;
+  });
+  socket.on('connection_error', function(error) {
+    $('#connectError').css({display:'block'});
+    $('#connectError').html(error);
+  });
+  socket.on('inscription_error', function(error) {
+    $('#inscriptionError').css({display:'block'});
+    $('#inscriptionError').html(error);
+  });
+
+</script>
