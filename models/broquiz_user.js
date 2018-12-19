@@ -28,14 +28,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    user_creation: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    user_last_co: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
     user_points: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -56,6 +48,18 @@ module.exports = function(sequelize, DataTypes) {
         model: 'role',
         key: 'role_id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    user_last_connection: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     tableName: 'broquiz_user'

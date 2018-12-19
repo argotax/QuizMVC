@@ -1,4 +1,4 @@
-var socket = io.connect('http://10.2.4.26:8080');
+var socket = io();
 
 $("#signinForm").submit(function(e) {
   e.preventDefault();
@@ -29,6 +29,8 @@ socket.on('connection_error', function(error) {
   $('#connectError').css({display:'block'});
   $('#connectError').html(error);
 });
+
+
 socket.on('inscription_error', function(error) {
   $('#inscriptionError').css({display:'block'});
   $('#inscriptionError').html(error);

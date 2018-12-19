@@ -1,74 +1,38 @@
-'use strict';
-const bcrypt = require('bcrypt');
+/* jshint indent: 2 */
 
-module.exports = (sequelize, DataTypes) => {
-
-  const User = sequelize.define('User', {
-    username: {
-      index: { unique: true },
-      type: DataTypes.STRING,
-      validate: {
-        isUnique(value, next) {
-          User.find({
-            where: { username: value }
-          }).done((user) => {
-            if (user)
-              return next("Le nom d'utilisateur est déjà utilisé.");
-
-            next();
-          });
-        },
-        notEmpty: {
-          arg: true,
-          msg: "Vous devez saisir un nom d'utilisateur."
-        }
-      }
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('user', {
+    id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
-    salt: {
-      type: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: false
     },
     password: {
-
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          arg: true,
-          msg: "Vous devez saisir un mot de passe."
-        }
-      }
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    salt: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     },
     email: {
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: {
-          arg: true,
-          msg: "Vous devez saisir un e-mail valide."
-        }
-      }
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      field: 'created_at',
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      field: 'updated_at',
-    },
+      type: DataTypes.STRING(255),
+      allowNull: true
+    }
   }, {
-    underscored: true,
-    tableName: 'user',
+    tableName: 'user'
   });
-
-  User.beforeCreate((user, options) => {
-    return new Promise ((resolve, reject) => {
-      var salt = bcrypt.genSaltSync(8);
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        user.password = hash;
-        user.salt = salt;
-        return resolve(user, options);
-      });
-    });
-  });
-
-  return User;
 };

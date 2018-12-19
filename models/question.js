@@ -2,6 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('question', {
+    id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     question_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false
@@ -16,8 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     question_date: {
       type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      allowNull: false
     },
     question_creator_id: {
       type: DataTypes.INTEGER(11),
@@ -33,6 +38,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     question_label: {
       type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
       allowNull: false
     }
   }, {

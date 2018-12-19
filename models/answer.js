@@ -23,6 +23,14 @@ module.exports = function(sequelize, DataTypes) {
     answer_status: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, {
     tableName: 'answer'

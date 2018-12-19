@@ -3,62 +3,41 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('broquiz_user',
+            return queryInterface.createTable('game',
             {
-                "user_id": {
+                "game_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "user_login": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_email": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_password": {
-                    "type": "VARCHAR(1000)",
-                    "allowNull": false
-                },
-                "user_salt": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_country": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_creation": {
+                "game_date": {
                     "type": "DATETIME",
-                    "allowNull": true
+                    "allowNull": false
                 },
-                "user_last_co": {
-                    "type": "DATETIME",
-                    "allowNull": true
-                },
-                "user_points": {
+                "game_p1_id": {
                     "type": "INTEGER(11)",
-                    "allowNull": false,
-                    "defaultValue": "0"
+                    "allowNull": false
                 },
-                "user_status": {
+                "game_p2_id": {
                     "type": "INTEGER(11)",
-                    "allowNull": false,
-                    "references": {
-                        "model": "status_user",
-                        "key": "status_user_id"
-                    }
+                    "allowNull": false
                 },
-                "user_role": {
+                "game_p1_score": {
                     "type": "INTEGER(11)",
-                    "allowNull": false,
-                    "references": {
-                        "model": "role",
-                        "key": "role_id"
-                    }
+                    "allowNull": false
+                },
+                "game_p2_score": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
+                },
+                "game_p1_points": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
+                },
+                "game_p2_points": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
                 },
                 "createdAt": {
                     "type": "DATETIME",
@@ -78,7 +57,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('broquiz_user');
+            return queryInterface.dropTable('game');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
