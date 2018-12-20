@@ -27,12 +27,14 @@ socket.on('redirect', function(destination) {
 });
 
 socket.on('connection_error', function(error) {
+  console.log('test');
   $('#connectError').css({display:'block'});
   $('#connectError').html(error);
 });
 
 
 socket.on('inscription_error', function(error) {
+  console.log('test');
   $('#inscriptionError').css({display:'block'});
   $('#inscriptionError').html(error);
 });

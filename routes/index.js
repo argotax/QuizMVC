@@ -11,7 +11,6 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
 
 var app = express();
 var server = app.listen(8080);
@@ -44,11 +43,11 @@ module.exports = function(io) {
   io.on('connection', function (socket) {
 
     socket.on('signin', function (login, password) {
-       eval(fs.readFileSync('/routes/script/accueil/signup.js').toString());
+       eval(fs.readFileSync('./routes/script/accueil/signin.js').toString());
     });
-    
+
     socket.on('signup', function (login, password, confpassword, email, confemail, country) {
-      eval(fs.readFileSync('/routes/script/accueil/signup.js').toString());
+      eval(fs.readFileSync('./routes/script/accueil/signup.js').toString());
     });
 
   });

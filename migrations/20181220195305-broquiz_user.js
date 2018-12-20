@@ -3,29 +3,54 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('answer',
+            return queryInterface.createTable('broquiz_user',
             {
-                "answer_id": {
+                "user_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "answer_question_id": {
-                    "type": "INTEGER(11)",
-                    "allowNull": false
-                },
-                "answer_label": {
+                "user_login": {
                     "type": "VARCHAR(255)",
                     "allowNull": false
                 },
-                "answer_image": {
+                "user_email": {
                     "type": "VARCHAR(255)",
                     "allowNull": false
                 },
-                "answer_status": {
-                    "type": "INTEGER(11)",
+                "user_password": {
+                    "type": "VARCHAR(1000)",
                     "allowNull": false
+                },
+                "user_salt": {
+                    "type": "VARCHAR(255)",
+                    "allowNull": false
+                },
+                "user_country": {
+                    "type": "VARCHAR(255)",
+                    "allowNull": false
+                },
+                "user_points": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "defaultValue": "0"
+                },
+                "user_status": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "status_user",
+                        "key": "status_user_id"
+                    }
+                },
+                "user_role": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "role",
+                        "key": "role_id"
+                    }
                 },
                 "createdAt": {
                     "type": "DATETIME",
@@ -34,6 +59,10 @@ module.exports = {
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false
+                },
+                "user_last_co": {
+                    "type": "DATETIME",
+                    "allowNull": true
                 }
             })
         })
@@ -45,7 +74,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('answer');
+            return queryInterface.dropTable('broquiz_user');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');

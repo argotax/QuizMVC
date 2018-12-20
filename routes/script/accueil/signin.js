@@ -5,21 +5,40 @@ var validationSignin = new Promise((success,error) => {
   if(validator.isEmpty(signin_login) || validator.isEmpty(signin_password)){
     error('Tout les champs ne sont pas complets !');
   } else if (validator.isEmail(signin_login)) {
-
-  } else {
-    connection.query("SELECT user_id, user_login, user_password, user_salt FROM broquiz_user WHERE user_login = '"+signin_login+"'", function (err, result, fields) {
-      if (result[0] == undefined) {
-        error('Ce login n\'existe pas !');
-      } else {
-        if (sha512(signin_password, result[0].user_salt).passwordHash == result[0].user_password) {
-          socket.handshake.session.user = {userlogin:result[0].user_login};
-          socket.handshake.session.save();
+    models
+    .broquiz_user
+    .findOne({
+      where:{ user_email: signin_login },
+      attributes: ['user_id', 'user_login', 'user_password', 'user_salt']
+    }).then(
+      user => {
+        if (!user){
+          error('Cette adresse email n\'existe pas !');
+        } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
+          console.log('oui');
           success('Connected');
         } else {
-          error('Mot de passe éronné !')
+          error('Mot de passe éronné !');
         }
       }
-    });
+    );
+  } else {
+    models
+    .broquiz_user
+    .findOne({
+      where:{ user_login: signin_login },
+      attributes: ['user_id', 'user_login', 'user_password', 'user_salt']
+    }).then(
+      user => {
+        if (!user){
+          error('Ce login n\'existe pas !');
+        } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
+          success('Connected');
+        } else {
+          error('Mot de passe éronné !');
+        }
+      }
+    );
   }
 });
 

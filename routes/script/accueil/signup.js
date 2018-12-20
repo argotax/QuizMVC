@@ -55,7 +55,7 @@ validationSignup
   console.log(success);
   signup_login = entities.encode(signup_login);
   var salt = bcrypt.genSaltSync(saltRounds);
-  var hash = bcrypt.hashSync(myPlaintextPassword, salt);
+  var hash = bcrypt.hashSync(signup_password, salt);
   if (signup_country.indexOf('(') != -1) {
     signup_country = (signup_country.slice(0,signup_country.indexOf('(')));
   }
