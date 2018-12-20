@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     game_date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     game_p1_id: {
       type: DataTypes.INTEGER(11),
@@ -34,14 +35,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     game_p2_points: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
       allowNull: false
     }
   }, {

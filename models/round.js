@@ -23,14 +23,6 @@ module.exports = function(sequelize, DataTypes) {
     round_p2_score: {
       type: DataTypes.INTEGER(11),
       allowNull: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false
     }
   }, {
     tableName: 'round'
