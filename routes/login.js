@@ -3,14 +3,14 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var models = require('../models');
 var router = express.Router();
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
- 
+
 passport.deserializeUser(function(id, done) {
-  models.User.findById(id)
+  models.user.findById(id)
   .then((user) => {
      done(null, user);
   })
@@ -18,9 +18,9 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    models.User.findOne({
-    	where: { 
-    		username: username 
+    models.user.findOne({
+    	where: {
+    		username: username
     	}
     }).then((user) => {
       // Si l'utilisateur n'existe pas

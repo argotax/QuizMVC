@@ -3,37 +3,19 @@ var router = express.Router();
 var http = require('http');
 var validator = require('validator');
 var datetime = require('node-datetime');
-var crypto = require('crypto');
 var bodyParser = require('body-parser');
 const models = require('../models');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+
 
 var app = express();
 var server = app.listen(8080);
 
-
-function hashPwd(password) {
-  var genRandomString = function(length){
-    return crypto.randomBytes(Math.ceil(length/2))
-            .toString('hex') /** convert to hexadecimal format */
-            .slice(0,length);   /** return required number of characters */
-  };
-
-  var sha512 = function(password, salt){
-    var hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
-    hash.update(password);
-    var value = hash.digest('hex');
-    return {
-        salt:salt,
-        passwordHash:value
-    };
-  };
-
-  salt = genRandomString(16); /** Gives us salt of length 16 */
-  passwordData = sha512(password, salt);
-}
 function getDate() {
   today = new Date();
   var dd = today.getDate();
@@ -121,22 +103,21 @@ module.exports = function(io) {
         validationSignup
         .then(function(success) {
           signup_login = entities.encode(signup_login);
-          hashPwd(signup_password);
-          newpassword = passwordData.passwordHash;
+          var salt = bcrypt.genSaltSync(saltRounds);
+          var hash = bcrypt.hashSync(myPlaintextPassword, salt);
           if (signup_country.indexOf('(') != -1) {
             signup_country = (signup_country.slice(0,signup_country.indexOf('(')));
           }
           getDate();
           var dt = datetime.create();
           var creation = dt.format('Y/m/d H:M:S');
-          var values = [[signup_login, signup_email, newpassword, salt, signup_country, creation, 0, 3, 2]];
 
           models
           .broquiz_user
           .create({
             user_login: signup_login,
             user_email: signup_email,
-            user_password: newpassword,
+            user_password: hash,
             user_salt: salt,
             user_country: signup_country,
             user_points: 0,
