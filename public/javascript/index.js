@@ -25,6 +25,7 @@ function signup(){
 socket.on('redirect', function(destination) {
   window.location.href = destination;
 });
+
 socket.on('connection_error', function(error) {
   $('#connectError').css({display:'block'});
   $('#connectError').html(error);

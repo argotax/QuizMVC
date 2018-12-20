@@ -24,7 +24,9 @@ passport.use(new LocalStrategy(
     	}
     }).then((user) => {
       // Si l'utilisateur n'existe pas
-      if (!user) { return done(null, false); }
+      if (!user) {
+        return done(null, false);
+      }
       bcrypt.hash(password, user.salt, (err, hash) => {
         if(hash == user.password) {
           return done(null, user);
@@ -39,7 +41,7 @@ passport.use(new LocalStrategy(
 ));
 
 router.get('/', function(req, res, next) {
-  res.render('users/login', { user : req.user });
+  res.render('users/login');
 });
 
 router.post('/', passport.authenticate('local', { failureRedirect: '/users/login' }), (req, res) => {
