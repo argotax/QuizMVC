@@ -8,19 +8,19 @@ var bcrypt = require('bcrypt');
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
- 
+
 passport.deserializeUser(function(id, done) {
-  models.User.findById(id)
+  models.broquiz_user.findById(id)
   .then((user) => {
      done(null, user);
   })
 });
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    models.User.findOne({
-    	where: { 
-    		username: username 
+  function(login, password, done) {
+    models.broquiz_user.findOne({
+    	where: {
+    		user_login: login
     	}
     }).then((user) => {
       // Si l'utilisateur n'existe pas
