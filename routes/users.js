@@ -1,11 +1,16 @@
 const express = require('express');
 const models = require('../models');
 const router = express.Router();
+var datetime = require('node-datetime');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.render('users/register.twig');
 });
+
+var dt = datetime.create();
+var creation = dt.format('Y/m/d H:M:S');
+
 
 router.post('/', (req, res, next) => {
 	const r = req.body;

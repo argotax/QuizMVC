@@ -3,38 +3,20 @@ var router = express.Router();
 var http = require('http');
 var validator = require('validator');
 var datetime = require('node-datetime');
-var crypto = require('crypto');
 var bodyParser = require('body-parser');
 const models = require('../models');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 const bcrypt = require('bcrypt');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+
 
 var app = express();
 var server = app.listen(8080);
 
-
-function hashPwd(password) {
-  var genRandomString = function(length){
-    return crypto.randomBytes(Math.ceil(length/2))
-            .toString('hex') /** convert to hexadecimal format */
-            .slice(0,length);   /** return required number of characters */
-  };
-
-  var sha512 = function(password, salt){
-    var hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
-    hash.update(password);
-    var value = hash.digest('hex');
-    return {
-        salt:salt,
-        passwordHash:value
-    };
-  };
-
-  salt = genRandomString(16); /** Gives us salt of length 16 */
-  passwordData = sha512(password, salt);
-}
 function getDate() {
   today = new Date();
   var dd = today.getDate();
