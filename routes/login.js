@@ -8,7 +8,7 @@ var bcrypt = require('bcrypt');
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
- 
+
 passport.deserializeUser(function(id, done) {
   models.User.findById(id)
   .then((user) => {
@@ -18,9 +18,9 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    models.User.findOne({
-    	where: { 
-    		username: username 
+    models.user.findOne({
+    	where: {
+    		username: username
     	}
     }).then((user) => {
       // Si l'utilisateur n'existe pas

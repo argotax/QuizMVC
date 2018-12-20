@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 const models = require('../models');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
+const bcrypt = require('bcrypt');
 
 
 var app = express();
@@ -121,22 +122,21 @@ module.exports = function(io) {
         validationSignup
         .then(function(success) {
           signup_login = entities.encode(signup_login);
-          hashPwd(signup_password);
-          newpassword = passwordData.passwordHash;
+          var salt = bcrypt.genSaltSync(saltRounds);
+          var hash = bcrypt.hashSync(myPlaintextPassword, salt);
           if (signup_country.indexOf('(') != -1) {
             signup_country = (signup_country.slice(0,signup_country.indexOf('(')));
           }
           getDate();
           var dt = datetime.create();
           var creation = dt.format('Y/m/d H:M:S');
-          var values = [[signup_login, signup_email, newpassword, salt, signup_country, creation, 0, 3, 2]];
 
           models
           .broquiz_user
           .create({
             user_login: signup_login,
             user_email: signup_email,
-            user_password: newpassword,
+            user_password: hash,
             user_salt: salt,
             user_country: signup_country,
             user_points: 0,

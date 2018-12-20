@@ -9,10 +9,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/', (req, res, next) => {
 	const r = req.body;
-	models.User.create({
+  console.log(r.username);
+	models.user.create({
 		username: r.username,
 		password: r.password,
 		email: r.email,
+    salt: 'test'
 	}).then(function() {
 		//req.flash('success', "L'utilisateur a bien été ajouté.");
 		res.redirect('/users');
