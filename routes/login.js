@@ -3,7 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var models = require('../models');
 var router = express.Router();
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 const models = require('../models');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
-const bcrypt = require('bcrypt');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
