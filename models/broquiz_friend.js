@@ -1,14 +1,14 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('friend', {
+  return sequelize.define('broquiz_friend', {
     friend_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    friend1_id: {
+    friend_p1: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'user_id'
       }
     },
-    friend2_id: {
+    friend_p2: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
@@ -28,11 +28,21 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
-        model: 'status_friend',
-        key: 'status_friend_id'
+        model: 'broquiz_status',
+        key: 'status_id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
-    tableName: 'friend'
+    tableName: 'broquiz_friend'
   });
 };

@@ -73,10 +73,7 @@ validationSignup
     user_country: signup_country,
     user_points: 0,
     user_status: 1,
-    user_role: 1,
-    createdAt: creation,
-    updatedAt: creation,
-    user_last_connection: creation
+    user_role: 2
   });
 
   signup_error = undefined;

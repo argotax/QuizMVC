@@ -1,46 +1,42 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('broquiz_user', {
-    user_id: {
+  return sequelize.define('broquiz_question', {
+    question_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    user_login: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    user_email: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    user_password: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    user_salt: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    user_country: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    user_points: {
+    question_creator: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
-    user_role: {
+    question_validator: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
-        model: 'broquiz_status',
-        key: 'status_id'
+        model: 'broquiz_user',
+        key: 'user_id'
       }
     },
-    user_status: {
+    question_category: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'broquiz_category',
+        key: 'category_id'
+      }
+    },
+    question_label: {
+      type: DataTypes.STRING(2500),
+      allowNull: false
+    },
+    question_image: {
+      type: DataTypes.STRING(1000),
+      allowNull: false
+    },
+    question_status: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
@@ -57,13 +53,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW
-    },
-    connectedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
     }
   }, {
-    tableName: 'broquiz_user'
+    tableName: 'broquiz_question'
   });
 };

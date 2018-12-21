@@ -3,37 +3,55 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('answer',
+            return queryInterface.createTable('broquiz_game',
             {
-                "answer_id": {
+                "game_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "answer_question_id": {
+                "game_p1": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_user",
+                        "key": "user_id"
+                    }
+                },
+                "game_p2": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_user",
+                        "key": "user_id"
+                    }
+                },
+                "game_p1_score": {
                     "type": "INTEGER(11)",
                     "allowNull": false
                 },
-                "answer_label": {
-                    "type": "VARCHAR(255)",
+                "game_p2_score": {
+                    "type": "INTEGER(11)",
                     "allowNull": false
                 },
-                "answer_image": {
-                    "type": "VARCHAR(255)",
+                "game_p1_points": {
+                    "type": "INTEGER(11)",
                     "allowNull": false
                 },
-                "answer_status": {
+                "game_p2_points": {
                     "type": "INTEGER(11)",
                     "allowNull": false
                 },
                 "createdAt": {
                     "type": "DATETIME",
-                    "allowNull": false
+                    "allowNull": false,
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 },
                 "updatedAt": {
                     "type": "DATETIME",
-                    "allowNull": false
+                    "allowNull": false,
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             })
         })
@@ -45,7 +63,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('answer');
+            return queryInterface.dropTable('broquiz_game');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');

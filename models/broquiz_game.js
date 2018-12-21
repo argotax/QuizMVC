@@ -1,25 +1,28 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('game', {
+  return sequelize.define('broquiz_game', {
     game_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    game_date: {
-      type: DataTypes.DATE,
+    game_p1: {
+      type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      references: {
+        model: 'broquiz_user',
+        key: 'user_id'
+      }
     },
-    game_p1_id: {
+    game_p2: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
-    },
-    game_p2_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'broquiz_user',
+        key: 'user_id'
+      }
     },
     game_p1_score: {
       type: DataTypes.INTEGER(11),
@@ -36,8 +39,18 @@ module.exports = function(sequelize, DataTypes) {
     game_p2_points: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
-    tableName: 'game'
+    tableName: 'broquiz_game'
   });
 };

@@ -3,66 +3,71 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('broquiz_user',
+            return queryInterface.createTable('broquiz_round',
             {
-                "user_id": {
+                "round_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "user_login": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_email": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_password": {
-                    "type": "VARCHAR(1000)",
-                    "allowNull": false
-                },
-                "user_salt": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_country": {
-                    "type": "VARCHAR(255)",
-                    "allowNull": false
-                },
-                "user_points": {
-                    "type": "INTEGER(11)",
-                    "allowNull": false,
-                    "defaultValue": "0"
-                },
-                "user_status": {
+                "round_game": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
-                        "model": "status_user",
-                        "key": "status_user_id"
+                        "model": "broquiz_game",
+                        "key": "game_id"
                     }
                 },
-                "user_role": {
+                "round_category": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
-                        "model": "role",
-                        "key": "role_id"
+                        "model": "broquiz_category",
+                        "key": "category_id"
+                    }
+                },
+                "round_p1_score": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
+                },
+                "round_p2_score": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
+                },
+                "round_q1": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_question",
+                        "key": "question_id"
+                    }
+                },
+                "round_q2": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_question",
+                        "key": "question_id"
+                    }
+                },
+                "round_q3": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_question",
+                        "key": "question_id"
                     }
                 },
                 "createdAt": {
                     "type": "DATETIME",
-                    "allowNull": false
+                    "allowNull": false,
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 },
                 "updatedAt": {
                     "type": "DATETIME",
-                    "allowNull": false
-                },
-                "user_last_co": {
-                    "type": "DATETIME",
-                    "allowNull": true
+                    "allowNull": false,
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             })
         })
@@ -74,7 +79,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('broquiz_user');
+            return queryInterface.dropTable('broquiz_round');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
