@@ -1,5 +1,112 @@
 {% extends 'layout.twig' %}
 
+{% block css %}
+
+  <link rel="stylesheet" href="/stylesheet/accueil.css">
+
+{% endblock %}
+
 {% block body %}
-  <h1>{{"Bonjour"}}</h1>
+
+  <div class="block-main" id="blockMain">
+
+    <div class="block-header">
+      <div class="login px-2">
+        Bonjour Michel !
+      </div>
+      <div class="container-i profile px-3"><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
+      <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
+    </div>
+
+    <h1 class="title">BroQuiz</h1>
+
+    <div class="block-button">
+      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Jouer</button>
+      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Classement</button>
+      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Historique</button>
+      <button type="button" class="btn btn-dark w-25 p-3">Ajouter une question</button>
+    </div>
+
+  </div>
+
+  <div class="block-friend" id="blockFriend">
+
+    <div class="block-header">
+      <div class="friend-box p-1 friend-connected">
+        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+        <div class="friend-count mx-2">5</div>
+      </div>
+      <div class="friend-box p-1 friend-absent">
+        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+        <div class="friend-count mx-2">5</div>
+      </div>
+      <div class="friend-box p-1 friend-disconnected">
+        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+        <div class="friend-count mx-2">5</div>
+      </div>
+    </div>
+
+    <div class="friend-list-wrapper" id="friend-list">
+
+      <div class="input-group my-3 w-75">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">🔍</span>
+        </div>
+        <input type="text" class="form-control instant-search" id="friendLogin" name="friendLogin" placeholder="Chercher un ami" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <div class="scroll friend-list-block">
+        <ul class="list w-75">
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
+          <li class="my-2"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script%}
+
+  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var position = 0;
+
+    function displayFriend() {
+      if (position == 0) {
+        $("#blockFriend").css("left","80%");
+        $("#blockMain").css("width","80%");
+        $("#leftArrow").css("transform","rotate(180deg)");
+        position = 1;
+      } else {
+        $("#blockFriend").css("left","100%");
+        $("#blockMain").css("width","100%");
+        $("#leftArrow").css("transform","rotate(0deg)");
+        position = 0;
+      }
+
+      var list = new List('friend-list', {
+        valueNames: ['name']
+      });
+
+    }
+  </script>
+
 {% endblock %}

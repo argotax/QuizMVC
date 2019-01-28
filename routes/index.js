@@ -86,7 +86,7 @@ router.post('/signin', function(req, res, next) {
 
   validationSignin
   .then(function(success) {
-    res.render('accueil');
+    res.redirect('/accueil');
   })
   .catch(function(error) {
     res.render('index', { signin_error: error });
@@ -100,8 +100,6 @@ router.post('/signup', function(req, res, next) {
   signup_email = req.body.email;
   signup_confemail = req.body.confemail;
   signup_country = req.body.country;
-
-  console.log(signup_login, signup_password, signup_confpassword, signup_email, signup_confemail, signup_country);
 
   var validationSignup = new Promise((success,error) => {
     if(validator.isEmpty(signup_login) || validator.isEmpty(signup_password) || validator.isEmpty(signup_confpassword) || validator.isEmpty(signup_email) || validator.isEmpty(signup_confemail) || validator.isEmpty(signup_country)){
@@ -182,11 +180,10 @@ router.post('/signup', function(req, res, next) {
     signup_confemail = undefined;
     signup_country = undefined;
 
-    res.render('accueil');
+    res.redirect('/accueil');
 
   })
   .catch(function(error) {
-    console.log(error);
     res.render('index', { signup_error: error, login: signup_login, email: signup_email, confemail: signup_confemail, country: signup_country });
   });
 });
