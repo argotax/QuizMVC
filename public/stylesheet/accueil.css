@@ -99,6 +99,9 @@ body {
 .block-friend .friend-list-wrapper .input-group {
   margin: 0 auto;
 }
+.block-friend .friend-list-wrapper .input-group .add-friend-button {
+  cursor: pointer;
+}
 .block-friend .friend-list-wrapper .friend-list-block {
   height: 95%;
   overflow: auto;
