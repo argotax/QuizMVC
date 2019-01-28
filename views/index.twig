@@ -23,13 +23,17 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalSigninTitle">Connexion</h5>
-          <div class="alert alert-danger signin-error mb-0 connect-error" id="connectError"></div>
+            {% if signin_error is defined %}
+              <div class="alert alert-danger signin-error mb-0 connect-error" id="connectError">
+                {{ signin_error }}
+              </div>
+            {% endif %}
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form onsubmit="signin()" id="signinForm">
+          <form id="signinForm" action="/signin" method="post">
             <div class="row mb-4">
               <div class="col-12">
                 <label for="connect-login">Pseudo / Email</label>
@@ -42,12 +46,12 @@
                 <input type="password" class="form-control" id="connect-password" placeholder="Entrer votre mot de passe" name="connectPassword">
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-            <button type="submit" class="btn btn-primary btn-modal" onclick="signin()">Valider</button>
-          </div>
-        </form>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+              <button type="submit" class="btn btn-primary btn-modal">Valider</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -58,17 +62,25 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalSignupTitle">Inscription</h5>
-          <div class="alert alert-danger signup-error mb-0 inscription-error" id="inscriptionError"></div>
+          {% if signup_error is defined %}
+            <div class="alert alert-danger signup-error mb-0 inscription-error" id="inscriptionError">
+              {{ signup_error }}
+            </div>
+          {% endif %}
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form onsubmit="signup()" id="signupForm">
+        <form id="signupForm" action="/signup" method="post">
           <div class="modal-body">
             <div class="row mb-4">
               <div class="col-6">
                 <label for="login">Pseudo</label>
-                <input type="text" class="form-control" id="login" placeholder="Entrer votre pseudo" name="login" autofocus>
+                <input type="text" class="form-control" id="login" placeholder="Entrer votre pseudo" name="login" autofocus
+                {% if signup_error is defined %}
+                    value="{{ login }}"
+                {% endif %}
+                >
               </div>
             </div>
 
@@ -86,25 +98,37 @@
             <div class="row mb-4">
               <div class="col">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="mail" name="email" placeholder="Entrer votre email"              >
+                <input type="text" class="form-control" id="mail" name="email" placeholder="Entrer votre email"
+                {% if signup_error is defined %}
+                    value="{{ email }}"
+                {% endif %}
+                >
               </div>
               <div class="col">
                 <label for="confemail">Confirmation email</label>
-                <input type="text" class="form-control" id="confmail" name="confemail" placeholder="Entrer votre email">
+                <input type="text" class="form-control" id="confmail" name="confemail" placeholder="Entrer votre email"
+                {% if signup_error is defined %}
+                    value="{{ confemail }}"
+                {% endif %}
+                >
               </div>
             </div>
 
             <div class="row mb-4">
               <div class="col-6 select-country">
                 <label for="country">Pays</label>
-                <input id="country" type="text" class="form-control" name="country">
+                <input id="country" type="text" class="form-control" name="country"
+                {% if signup_error is defined %}
+                    value="{{ country }}"
+                {% endif %}
+                >
   		          <label for="country" style="display:none;">Select a country here...</label>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-            <button type="submit" class="btn btn-primary btn-modal" onclick="signup()">Valider</button>
+            <button type="submit" class="btn btn-primary btn-modal">Valider</button>
           </div>
         </form>
       </div>
@@ -115,4 +139,16 @@
   <script src="/vendors/countryFlags/countrySelect.min.js" charset="utf-8"></script>
   <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src="/javascript/index.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    {% if signin_error is defined %}
+      $(window).on('load',function(){
+          $('#modalSignin').modal('show');
+      });
+    {% endif %}
+    {% if signup_error is defined %}
+      $(window).on('load',function(){
+          $('#modalSignup').modal('show');
+      });
+    {% endif %}
+  </script>
 {% endblock %}

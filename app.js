@@ -16,7 +16,7 @@ let sess={
 var app = express();
 app.io = require('socket.io')();
 
-const indexRouter = require('./routes/index')(app.io);
+const indexRouter = require('./routes/index');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
