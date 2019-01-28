@@ -109,13 +109,23 @@ body {
 .block-friend .friend-list-wrapper .friend-list-block .list {
   list-style-type: none;
   padding: 0px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0px;
 }
-.block-friend .friend-list-wrapper .friend-list-block .list .name {
+.block-friend .friend-list-wrapper .friend-list-block .list  .list-item {
+  padding: 15px 40px;
+  cursor: pointer;
+}
+.block-friend .friend-list-wrapper .friend-list-block .list  .list-item:hover {
+  background-color: #e59400;
+}
+.block-friend .friend-list-wrapper .friend-list-block .list .list-item .name {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
 }
-.block-friend .friend-list-wrapper .friend-list-block .list .name i {
+.block-friend .friend-list-wrapper .friend-list-block .list .list-item .name i {
   color: #28a745;
 }
 
