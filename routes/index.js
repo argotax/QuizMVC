@@ -13,7 +13,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 var app = express();
-var server = app.listen(8080);
 
 function getDate() {
   today = new Date();
