@@ -74,8 +74,8 @@ router.post('/signin', function(req, res, next) {
           if (!user){
             error('Ce login n\'existe pas !');
           } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
-            req.session.id = user.user_id;
-            req.session.login = user.user_login;
+            req.session.user_id = user.user_id;
+            req.session.user_login = user.user_login;
             success('Connected');
           } else {
             error('Mot de passe éronné !');
