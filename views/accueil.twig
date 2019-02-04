@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
   <div class="block-main" id="blockMain">
 
     <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
@@ -90,9 +89,14 @@
 
 {% block script%}
 
+  <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script type="text/javascript">
     var position = 0;
+
+    var socket = io.connect('http://localhost:3000');
+
+    socket.emit('test');
 
     function displayFriend() {
       if (position == 0) {

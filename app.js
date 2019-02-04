@@ -33,8 +33,12 @@ app.use(express.static(path.join(__dirname, 'node_modules/socket.io')));
 app.use('/', indexRouter);
 app.use('/accueil', accueilRouter);
 
-app.io.on('connection', function(){
+app.io.on('connection', function(socket){
   console.log('connected');
+
+  socket.on('test', function(){
+    console.log('test');
+  })
 })
 
 
