@@ -36,7 +36,7 @@ function getDate() {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 router.post('/signin', function(req, res, next) {
@@ -86,6 +86,7 @@ router.post('/signin', function(req, res, next) {
 
   validationSignin
   .then(function(success) {
+    req.session.login = signin_login;
     res.redirect('/accueil');
   })
   .catch(function(error) {

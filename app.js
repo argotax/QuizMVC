@@ -4,14 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-let sess={
-  maxAge:86400,
-  secret: 'tata',
-  name: 'express_session-cookie',
-  proxy: true,
-  resave: true,
-  saveUninitialized: true
-};
 
 var app = express();
 app.io = require('socket.io')();
@@ -22,8 +14,15 @@ const accueilRouter = require('./routes/accueil');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
-app.use(session(sess));
 app.use(logger('dev'));
+app.use(session({
+  secret: 'tata',
+  maxAge: 86400,
+  name: 'express_session_cookie',
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
