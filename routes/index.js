@@ -57,7 +57,6 @@ router.post('/signin', function(req, res, next) {
           if (!user){
             error('Cette adresse email n\'existe pas !');
           } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
-            console.log('oui');
             success('Connected');
           } else {
             error('Mot de passe éronné !');
@@ -75,6 +74,8 @@ router.post('/signin', function(req, res, next) {
           if (!user){
             error('Ce login n\'existe pas !');
           } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
+            req.session.id = user.user_id;
+            req.session.login = user.user_login;
             success('Connected');
           } else {
             error('Mot de passe éronné !');
@@ -86,7 +87,6 @@ router.post('/signin', function(req, res, next) {
 
   validationSignin
   .then(function(success) {
-    req.session.login = signin_login;
     res.redirect('/accueil');
   })
   .catch(function(error) {
@@ -172,6 +172,18 @@ router.post('/signup', function(req, res, next) {
       user_role: 2
     });
 
+    models
+    .broquiz_user
+    .findOne({
+      where:{ user_login: signup_login },
+      attributes: ['user_id', 'user_login']
+    }).then(
+      user => {
+        req.session.id = user.user_id;
+        req.session.login = user.user_login;
+      }
+    );
+
     signup_error = undefined;
 
     signup_login = undefined;
@@ -187,6 +199,11 @@ router.post('/signup', function(req, res, next) {
   .catch(function(error) {
     res.render('index', { signup_error: error, login: signup_login, email: signup_email, confemail: signup_confemail, country: signup_country });
   });
+});
+
+router.get('/disconnect', function(req, res, next) {
+  req.session.destroy();
+  res.render('index');
 });
 
 module.exports = router;
