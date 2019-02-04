@@ -10,9 +10,11 @@
 
   <div class="block-main" id="blockMain">
 
+    <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
+
     <div class="block-header">
       <div class="login px-2">
-        Bonjour Michel !
+        Bonjour {% if login is defined %}{{login}}{% endif %} !
       </div>
       <div class="container-i profile px-3"><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
@@ -94,8 +96,8 @@
 
     function displayFriend() {
       if (position == 0) {
-        $("#blockFriend").css("left","80%");
-        $("#blockMain").css("width","80%");
+        $("#blockFriend").css("left","70%");
+        $("#blockMain").css("width","70%");
         $("#leftArrow").css("transform","rotate(180deg)");
         position = 1;
       } else {
