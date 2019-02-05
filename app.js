@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
+const Sequelize = require('sequelize');
+const models = require('./models');
 
 var app = express();
 app.io = require('socket.io')();
@@ -11,6 +13,8 @@ app.io = require('socket.io')();
 const indexRouter = require('./routes/index');
 const accueilRouter = require('./routes/accueil');
 const questionRouter = require('./routes/question')
+
+const Op = Sequelize.Op;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,8 +39,29 @@ app.use('/', indexRouter);
 app.use('/accueil', accueilRouter);
 app.use('/question', questionRouter);
 
-app.io.on('connection', function(){
+app.io.on('connection', function(socket){
   console.log('connected');
+
+  socket.on('friend-request', function(friendRequest){
+    if (friendRequest.friend != friendRequest.user) {
+      models
+      .broquiz_user
+      .findAll({
+        where:{ user_login: {[Op.or]: [friendRequest.user, friendRequest.friend] }},
+        attributes: ['user_id']
+      }).then(
+        user => {
+          models
+          .broquiz_friend
+          .create({
+            friend_p1: user[0].user_id,
+            friend_p2: user[1].user_id,
+            friend_status: 6
+          });
+        }
+      );
+    }
+  })
 })
 
 

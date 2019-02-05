@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
   <div class="block-main" id="blockMain">
 
     <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
@@ -56,31 +55,15 @@
         </div>
         <input type="text" class="form-control instant-search" id="friendLogin" name="friendLogin" placeholder="Chercher un ami" aria-label="Username" aria-describedby="basic-addon1">
         <div class="input-group-append">
-          <span class="input-group-text add-friend-button">➕</span>
+          <span class="input-group-text add-friend-button" onclick="friendRequest()">➕</span>
         </div>
       </div>
 
       <div class="scroll friend-list-block">
         <ul class="list">
-          <li class="w-100 list-item list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+          {% for friend in friends %}
+            <li class="w-100 list-item list-item"><div class="name">{{ friend|capitalize }}<i class="fas fa-circle"></i></div></li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -90,9 +73,17 @@
 
 {% block script%}
 
+  <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script type="text/javascript">
     var position = 0;
+
+    var socket = io.connect('http://localhost:3000');
+
+    function friendRequest() {
+      socket.emit('friend-request', { user: '{{login}}', friend: $("#friendLogin").val() } );
+      $('#friendLogin').val('');
+    }
 
     function displayFriend() {
       if (position == 0) {
