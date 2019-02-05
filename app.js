@@ -10,6 +10,7 @@ app.io = require('socket.io')();
 
 const indexRouter = require('./routes/index');
 const accueilRouter = require('./routes/accueil');
+const questionRouter = require('./routes/question')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'node_modules/socket.io')));
 
 app.use('/', indexRouter);
 app.use('/accueil', accueilRouter);
+app.use('/question', questionRouter);
 
 app.io.on('connection', function(){
   console.log('connected');

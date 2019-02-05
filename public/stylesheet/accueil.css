@@ -57,6 +57,10 @@ body {
   align-items: center;
 }
 
+.block-button a span{
+  color: white;
+}
+
 .block-friend {
   height: 100vh;
   width: 30%;

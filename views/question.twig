@@ -23,10 +23,25 @@
     <h1 class="title">BroQuiz</h1>
 
     <div class="block-button">
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Jouer</button>
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Classement</button>
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Historique</button>
-      <a href="/question" class="btn btn-dark w-25 mb-3 p-3"><span>Ajouter une question</span></a>
+
+    <form class="col-6" id="questionForm" action="/add-question" method="post">
+      <div class="row mb-4">
+        <div class="col-8">
+          <label for="category">Category</label>
+          <input type="text" class="form-control" id="category" placeholder="Entrez la catégorie de votre question" name="category" autofocus>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-12">
+          <label for="question">Question</label>
+          <input type="text" class="form-control" id="question" placeholder="Entrer votre question" name="question">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Valider</button>
+
+    </form>
+
     </div>
 
   </div>
