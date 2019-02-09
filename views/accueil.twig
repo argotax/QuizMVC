@@ -19,6 +19,11 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
+    <div class="block-info">
+      <div class="alert alert-success friend-confirmed" role="alert">Ami ajouté !</div>
+      <div class="alert alert-danger friend-canceled" role="alert">Demande refusée !</div>
+    </div>
+
     <h1 class="title">BroQuiz</h1>
 
     <div class="block-button">
@@ -62,7 +67,13 @@
       <div class="scroll friend-list-block">
         <ul class="list">
           {% for friend in friends %}
-            <li class="w-100 list-item list-item"><div class="name">{{ friend|capitalize }}<i class="fas fa-circle"></i></div></li>
+            <li class="w-100 list-item list-item" id="{{friend[0]}}"><div class="name">{{ friend[1]|capitalize }}
+            {% if friend[2] == 5 %}
+              <i class="fas fa-circle"></i>
+            {% else %}
+              <div class="block-icon" id="{{friend[0]}}-icon"><i class="fas fa-check fa-lg confirm" onclick="confirmRequest({{friend[0]}})"></i><i class="fas fa-times fa-lg cancel" onclick="cancelRequest({{friend[0]}})"></i></div>
+            {% endif %}
+            </div></li>
           {% endfor %}
         </ul>
       </div>
@@ -98,11 +109,31 @@
         position = 0;
       }
 
-      var list = new List('friend-list', {
-        valueNames: ['name']
-      });
-
     }
+
+    function confirmRequest(friend) {
+      socket.emit('confirm-request', { friend: friend } );
+    }
+
+    function cancelRequest(friend) {
+      socket.emit('cancel-request', { friend: friend } );
+    }
+
+    socket.on('friend-confirmed', function (data) {
+      $("#"+data.data+"-icon").html('<i class="fas fa-circle"></i>');
+      $('.friend-confirmed').css('display','block');
+      setTimeout(function() { $(".friend-confirmed").css('display','none'); }, 5000);
+    });
+
+    socket.on('friend-canceled', function (data) {
+      $("#"+data.data).css('display','none');
+      $('.friend-canceled').css('display','block');
+      setTimeout(function() { $(".friend-canceled").css('display','none'); }, 5000);
+    });
+
+    var list = new List('friend-list', {
+      valueNames: ['name']
+    });
   </script>
 
 {% endblock %}
