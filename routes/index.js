@@ -21,21 +21,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-function getDate() {
-  today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
-  var yyyy = today.getFullYear();
-
-  if(dd<10) {
-      dd = '0'+dd
-  }
-
-  if(mm<10) {
-      mm = '0'+mm
-  }
-  today = yyyy + '-' + mm + '-' + dd + ' 00:00:00';
-}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -158,7 +143,6 @@ router.post('/signup', function(req, res, next) {
     if (signup_country.indexOf('(') != -1) {
       signup_country = (signup_country.slice(0,signup_country.indexOf('(')));
     }
-    getDate();
     var dt = datetime.create();
     var creation = dt.format('Y/m/d H:M:S');
 
