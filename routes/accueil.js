@@ -33,11 +33,13 @@ router.get('/', function(req, res, next) {
         }
       ).catch(function (err) {
         console.log('Error query !');
+        console.log(req.session.user_login);
         res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
       });
     }
   ).catch(function (err) {
     console.log('Error query !');
+    console.log(req.session.user_login);
     res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
   });
 
