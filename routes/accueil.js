@@ -27,16 +27,18 @@ router.get('/', function(req, res, next) {
           friends = [];
           friend.forEach(function(element) {
             friends.push([user[compteur].friend_id, element.user_login, user[compteur].friend_status]);
-            compteur = compteur + 1;
+              compteur = compteur + 1;
           });
           res.render('accueil',{id: req.session.user_id, login: req.session.user_login, friends: friends})
         }
       ).catch(function (err) {
         console.log('Error query !');
+        res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
       });
     }
   ).catch(function (err) {
     console.log('Error query !');
+    res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
   });
 
 });
