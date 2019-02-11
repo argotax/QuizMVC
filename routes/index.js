@@ -10,6 +10,9 @@ const entities = new Entities();
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 const saltRounds = 10;
 
 var app = express();

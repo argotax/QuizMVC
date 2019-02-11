@@ -62,6 +62,33 @@ app.io.on('connection', function(socket){
       );
     }
   })
+
+  socket.on('confirm-request', function(confirmRequest){
+    models.broquiz_friend.update(
+      { friend_status: 5 },
+      { where: { friend_id: confirmRequest.friend } }
+    )
+    .then(result =>
+      socket.emit('friend-confirmed', {data:confirmRequest.friend})
+    )
+    .catch(err =>
+      console.log('Error query !')
+    )
+  })
+
+  socket.on('cancel-request', function(confirmRequest){
+    models.broquiz_friend.destroy({
+      where: {
+        friend_id: confirmRequest.friend
+      }
+    })
+    .then(result =>
+      socket.emit('friend-canceled', {data:confirmRequest.friend})
+    )
+    .catch(err =>
+      console.log('Error query !')
+    )
+  })
 })
 
 

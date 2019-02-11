@@ -9,31 +9,25 @@ const Op = Sequelize.Op;
 router.get('/', function(req, res, next) {
 
   var friends = [];
+  var compteur = 0;
 
-  models
-  .broquiz_friend
-  .findAll({
-    where:{ [Op.or]: [{friend_p1: req.session.user_id}, {friend_p2: req.session.user_id}], friend_status: 5 },
-    attributes: ['friend_p1', 'friend_p2']
+  models.broquiz_friend.findAll({
+    attributes: ['friend_id', 'friend_status', [models.sequelize.literal('CASE WHEN friend_p1 = 1 THEN friend_p2 ELSE friend_p1 END'), 'friend_p1']],
+    where:{ [Op.or]: [{friend_p1: req.session.user_id}, {friend_p2: req.session.user_id}] }
   }).then(
     user => {
       user.forEach(function(element) {
-        if (element.friend_p1 != req.session.user_id) {
-          friends.push(element.friend_p1);
-        } else if (element.friend_p2 != req.session.user_id) {
-          friends.push(element.friend_p2);
-        }
+        friends.push(element.friend_p1);
       });
-      models
-      .broquiz_user
-      .findAll({
-        where:{ user_id: friends },
-        attributes: ['user_login']
+      models.broquiz_user.findAll({
+        attributes: ['user_login'],
+        where:{ user_id:{[Op.or]: friends}}
       }).then(
         friend => {
           friends = [];
           friend.forEach(function(element) {
-            friends.push(element.user_login);
+            friends.push([user[compteur].friend_id, element.user_login, user[compteur].friend_status]);
+            compteur = compteur + 1;
           });
           res.render('accueil',{id: req.session.user_id, login: req.session.user_login, friends: friends})
         }
