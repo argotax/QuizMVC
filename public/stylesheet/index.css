@@ -4,6 +4,16 @@ button:focus {
   outline: 0;
 }
 
+.block-alert {
+  height: 5vh;
+  width: 25%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.block-alert .signup-validate {
+  text-align: center;
+}
+
 .block-page {
   background-image: linear-gradient(to bottom, orange, yellow);
   height: 100vh;

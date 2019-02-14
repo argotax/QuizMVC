@@ -159,18 +159,6 @@ router.post('/signup', function(req, res, next) {
       user_role: 2
     });
 
-    models
-    .broquiz_user
-    .findOne({
-      where:{ user_login: signup_login },
-      attributes: ['user_id', 'user_login']
-    }).then(
-      user => {
-        req.session.id = user.user_id;
-        req.session.login = user.user_login;
-      }
-    );
-
     signup_error = undefined;
 
     signup_login = undefined;
@@ -180,7 +168,7 @@ router.post('/signup', function(req, res, next) {
     signup_confemail = undefined;
     signup_country = undefined;
 
-    res.redirect('/accueil');
+    res.render('index', { signup_validate: 'success' });
 
   })
   .catch(function(error) {

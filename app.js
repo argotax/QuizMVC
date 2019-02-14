@@ -43,24 +43,24 @@ app.io.on('connection', function(socket){
   console.log('connected');
 
   socket.on('friend-request', function(friendRequest){
-    if (friendRequest.friend != friendRequest.user) {
-      models
-      .broquiz_user
-      .findAll({
-        where:{ user_login: {[Op.or]: [friendRequest.user, friendRequest.friend] }},
-        attributes: ['user_id']
-      }).then(
-        user => {
-          models
-          .broquiz_friend
-          .create({
-            friend_p1: user[0].user_id,
-            friend_p2: user[1].user_id,
-            friend_status: 6
-          });
-        }
-      );
-    }
+    console.log(friendRequest.friend);
+    console.log(friendRequest.user);
+    models
+    .broquiz_user
+    .findOne({
+      where:{ user_login: friendRequest.friend },
+      attributes: ['user_id']
+    }).then(
+      user => {
+        models
+        .broquiz_friend
+        .create({
+          friend_p1: friendRequest.user,
+          friend_p2: user.user_id,
+          friend_status: 6
+        });
+      }
+    );
   })
 
   socket.on('confirm-request', function(confirmRequest){

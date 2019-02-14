@@ -8,6 +8,11 @@
 {% block body %}
 
   <div class="block-page">
+    {% if signup_validate is defined %}
+      <div class='block-alert'><div class="alert alert-success signup-validate mb-0 pt-2">
+        Inscription validée avec succès !
+      </div></div>
+    {% endif %}
     <div class="block-title">
       <h1 class="title">BroQuiz</h1>
     </div>
