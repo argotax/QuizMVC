@@ -24,11 +24,20 @@
 
     <div class="block-button">
 
-    <form class="col-6" id="questionForm" action="/add-question" method="post">
+    <form class="col-6" id="questionForm" action="/addQuestion" method="post">
       <div class="row mb-4">
         <div class="col-8">
           <label for="category">Category</label>
-          <input type="text" class="form-control" id="category" placeholder="Entrez la catégorie de votre question" name="category" autofocus>
+
+          <input list="category" name="category">
+
+
+          <datalist id="category">
+          {% for category in categories %}
+            <option value="{{category}}">
+          {% endfor %}
+          </datalist>
+
         </div>
       </div>
       <div class="row mb-4">
@@ -77,25 +86,7 @@
 
       <div class="scroll friend-list-block">
         <ul class="list">
-          <li class="w-100 list-item list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Oui<i class="fas fa-circle"></i></div></li>
-          <li class="w-100 list-item"><div class="name">Test<i class="fas fa-circle"></i></div></li>
+
         </ul>
       </div>
     </div>
