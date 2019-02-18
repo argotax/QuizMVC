@@ -1,7 +1,6 @@
 {% extends 'layout.twig' %}
 
 {% block css %}
-  <link rel="stylesheet" href="/vendors/countryFlags/countrySelect.min.css">
   <link rel="stylesheet" href="/stylesheet/parties.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
 {% endblock %}
@@ -9,7 +8,7 @@
 {% block body %}
   <div class="block-main" id="blockMain">
 
-    <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
+    <a style="color:white;position:absolute" href="/accueil">Retour</a>
 
     <div class="block-header">
       <div class="login px-2">
@@ -19,19 +18,28 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
-    <div class="block-info">
-      <div class="alert alert-success friend-confirmed" role="alert">Ami ajouté !</div>
-      <div class="alert alert-danger friend-canceled" role="alert">Demande refusée !</div>
+    <h2 class="title">Parties</h2>
+
+    <div class="block-parties">
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
     </div>
 
-    <h1 class="title">BroQuiz</h1>
-
-    <div class="block-button">
-      <a href="/parties" class="btn btn-dark w-25 mb-3 p-3"><span>Jouer</span></a>
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Classement</button>
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Historique</button>
-      <a href="/question" class="btn btn-dark w-25 mb-3 p-3"><span>Ajouter une question</span></a>
-    </div>
+    <div class="block-button-search"><button type="button" name="button" class="btn button-search">Rechercher</button></div>
 
     {% include 'friend.twig' %}
 
@@ -40,5 +48,6 @@
 
 {% block script%}
   <script src= "/vendors/socket.io/socket.io.js"></script>
+  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
 {% endblock %}
