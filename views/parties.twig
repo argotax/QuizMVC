@@ -1,10 +1,9 @@
 {% extends 'layout.twig' %}
 
 {% block css %}
-
-  <link rel="stylesheet" href="/stylesheet/accueil.css">
+  <link rel="stylesheet" href="/vendors/countryFlags/countrySelect.min.css">
+  <link rel="stylesheet" href="/stylesheet/parties.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
-
 {% endblock %}
 
 {% block body %}
@@ -37,13 +36,9 @@
     {% include 'friend.twig' %}
 
   </div>
-
 {% endblock %}
 
 {% block script%}
-
   <script src= "/vendors/socket.io/socket.io.js"></script>
-  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
-  <script src="/javascript/friend.js" charset="utf-8"></script>
-
+  <script src= "/javascript/friend.js"></script>
 {% endblock %}

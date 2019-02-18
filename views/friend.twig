@@ -1,0 +1,44 @@
+<div class="block-friend" id="blockFriend">
+
+  <div class="block-header">
+    <div class="friend-box p-1 friend-connected">
+      <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+      <div class="friend-count mx-2">5</div>
+    </div>
+    <div class="friend-box p-1 friend-absent">
+      <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+      <div class="friend-count mx-2">5</div>
+    </div>
+    <div class="friend-box p-1 friend-disconnected">
+      <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+      <div class="friend-count mx-2">5</div>
+    </div>
+  </div>
+
+  <div class="friend-list-wrapper" id="friend-list">
+
+    <div class="input-group my-3 w-75">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">🔍</span>
+      </div>
+      <input type="text" class="form-control instant-search" id="friendLogin" name="friendLogin" placeholder="Chercher un ami" aria-label="Username" aria-describedby="basic-addon1">
+      <div class="input-group-append">
+        <span class="input-group-text add-friend-button" onclick="friendRequest()">➕</span>
+      </div>
+    </div>
+
+    <div class="scroll friend-list-block">
+      <ul class="list">
+        {% for friend in friends %}
+          <li class="w-100 list-item list-item" id="{{friend[0]}}"><div class="name">{{ friend[3]|capitalize }}
+          {% if friend[2] == 5 %}
+            <i class="fas fa-circle"></i>
+          {% else %}
+            <div class="block-icon" id="{{friend[0]}}-icon"><i class="fas fa-check fa-lg confirm" onclick="confirmRequest({{friend[0]}})"></i><i class="fas fa-times fa-lg cancel" onclick="cancelRequest({{friend[0]}})"></i></div>
+          {% endif %}
+          </div></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const models = require('../models');
 const Sequelize = require('sequelize');
+var tools = require('./function');
 const sequelize = new Sequelize('broquiz', 'root', 'root', {
   host: 'localhost',
   dialect: 'mysql'
@@ -38,30 +39,31 @@ router.get('/', function(req, res, next) {
           models.broquiz_user.findAll({
             attributes: ['user_id', 'user_login'],
             where:{user_id:{[Op.in]: friends_id}},
-            order: sequelize.fn('FIELD', sequelize.col('user_id'), '3', '5', '30', '27', '28')
+            order: sequelize.fn('FIELD', sequelize.col('user_id'), friends_id)
           }).then(
             login => {
               login.forEach(function(element) {
                 friends[compteur].push(element.user_login);
                 compteur += 1;
               });
-              console.log(friends);
-              res.render('accueil',{id: req.session.user_id, login: req.session.user_login, friends: friends})
+              req.session.friends = friends;
+              res.render('accueil',{id: req.session.user_id, login: req.session.user_login, friends: req.session.friends})
             }
           ).catch(function (err) {
-            console.log('Error query !');
+            console.log('Error query !', err);
             res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
           });
         }
       ).catch(function (err) {
-        console.log('Error query !');
+        console.log('Error query !', err);
         res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
       });
     }
   ).catch(function (err) {
-    console.log('Error query !');
+    console.log('Error query !', err);
     res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
   });
+
 });
 
 module.exports = router;
