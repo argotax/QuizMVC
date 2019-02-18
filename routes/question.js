@@ -9,6 +9,7 @@ const models = require('../models');
 const Sequelize = require('sequelize');
 
 var app = express();
+var categories = [];
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -19,58 +20,58 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 /* GET user */
 router.get('/', function(req, res, next) {
-  console.log(req.session.user_id, req.session.user_login);
 
-  res.render('question',{id: req.session.user_id, login: req.session.user_login});
+  models
+  .broquiz_category
+  .findAll({
+    attributes: ['category_label']
+
+  }).then(
+    category => {
+      category.forEach(function(element) {
+        categories.push(element.category_label);
+        console.log(categories);
+        res.render('question',{id: req.session.user_id, login: req.session.user_login, categories : categories});
+      });
+    }
+  );
+
 });
 
-router.post('/signup', function(req, res, next) {
-  signup_login = req.body.login;
-  signup_password = req.body.password;
-  signup_confpassword = req.body.confpassword;
-  signup_email = req.body.email;
-  signup_confemail = req.body.confemail;
-  signup_country = req.body.country;
+router.post('/addQuestion', function(req, res, next) {
+  user_id = req.session.user_id;
+  user_login = req.session.user_login;
+  question_category = req.body.category;
+  question_question = req.body.question;
 
-  var validationSignup = new Promise((success,error) => {
-    if(validator.isEmpty(signup_login) || validator.isEmpty(signup_password) || validator.isEmpty(signup_confpassword) || validator.isEmpty(signup_email) || validator.isEmpty(signup_confemail) || validator.isEmpty(signup_country)){
+
+  var validationQuestion = new Promise((success,error) => {
+    if(validator.isEmpty(question_category) || validator.isEmpty(question_question)){
       error('Tout les champs ne sont pas complets !');
-    } else if (/\s/.test(signup_login)) {
-      error('Votre pseudo ne doit pas contenir d\'espace !');
-    } else if (entities.encode(signup_login) != signup_login) {
-      error('Votre pseudo n\'est pas valide !');
-    } else if (signup_login.length < 5) {
-      error('Votre pseudo doit contenir 5 caractères minimum !');
-    } else if (signup_password.length < 5) {
-      error('Votre mot de passe doit contenir 5 caractères minimum !');
-    } else if (signup_password != signup_confpassword) {
-      error('Les mots de passe ne correspondent pas !');
-    } else if (validator.isEmail(signup_email) == false) {
-      error('Votre email est invalide !');
-    } else if (signup_email != signup_confemail) {
-      error('Les email ne correspondent pas !');
-    } else if (validator.isEmpty(signup_login) == false && validator.isEmpty(signup_email) == false) {
+    } else if (entities.encode(question_question) != question_question) {
+      error('Votre question n\'est pas valide !');
+    } else if (validator.isEmpty(question_category) == false && validator.isEmpty(question_question) == false) {
       models
-      .broquiz_user
+      .broquiz_question
       .findOne({
-        where:{ user_login: signup_login }
+        where:{ question_label: question_question }
       }).then(
         user => {
           if (user) {
-            error('Ce pseudo est déjà utilisé !');
+            error('Cette question existe déjà !');
           }
         }
       );
       models
-      .broquiz_user
+      .broquiz_category
       .findOne({
-        where:{ user_email: signup_email }
+        where:{ category_label: question_category }
       }).then(
-        user => {
-          if (user) {
-            error('Cet email est déjà utilisé !');
+        category => {
+          if (category) {
+            /*Attribuer la categorie finale*/
           }else{
-            success('Tous les champs sont valides');
+            /*attribuer la categorie temporaire elle ne sera définitive qu'une fois la question validé par un admin*/
           }
         }
       );
