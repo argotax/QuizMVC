@@ -1,0 +1,53 @@
+{% extends 'layout.twig' %}
+
+{% block css %}
+  <link rel="stylesheet" href="/stylesheet/parties.css">
+  <link rel="stylesheet" href="/stylesheet/friend.css">
+{% endblock %}
+
+{% block body %}
+  <div class="block-main" id="blockMain">
+
+    <a style="color:white;position:absolute" href="/accueil">Retour</a>
+
+    <div class="block-header">
+      <div class="login px-2">
+        {% if login is defined %}{{login|capitalize}}{% endif %}
+      </div>
+      <div class="container-i profile px-3"><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
+      <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
+    </div>
+
+    <h2 class="title">Parties</h2>
+
+    <div class="block-parties">
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+    </div>
+
+    <div class="block-button-search"><button type="button" name="button" class="btn button-search">Rechercher</button></div>
+
+    {% include 'friend.twig' %}
+
+  </div>
+{% endblock %}
+
+{% block script%}
+  <script src= "/vendors/socket.io/socket.io.js"></script>
+  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
+  <script src= "/javascript/friend.js"></script>
+{% endblock %}

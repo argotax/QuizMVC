@@ -6,13 +6,19 @@ var logger = require('morgan');
 const session = require('express-session');
 const Sequelize = require('sequelize');
 const models = require('./models');
+var tools = require('./routes/function');
+const sequelize = new Sequelize('broquiz', 'root', 'root', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
 var app = express();
 app.io = require('socket.io')();
 
 const indexRouter = require('./routes/index');
 const accueilRouter = require('./routes/accueil');
-const questionRouter = require('./routes/question')
+const partiesRouter = require('./routes/parties');
+const questionRouter = require('./routes/question');
 
 const Op = Sequelize.Op;
 
@@ -37,14 +43,13 @@ app.use(express.static(path.join(__dirname, 'node_modules/socket.io')));
 
 app.use('/', indexRouter);
 app.use('/accueil', accueilRouter);
-app.use('/question', questionRouter);
+app.use('/parties', partiesRouter);
+app.use('/question', questionRouter)
 
 app.io.on('connection', function(socket){
   console.log('connected');
 
   socket.on('friend-request', function(friendRequest){
-    console.log(friendRequest.friend);
-    console.log(friendRequest.user);
     models
     .broquiz_user
     .findOne({

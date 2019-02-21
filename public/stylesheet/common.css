@@ -3,6 +3,11 @@
     font-family : "titleFont";
     src : url('/vendors/font/Pacifico-Regular.ttf');
 }
+@font-face{
+    font-family : "Font";
+    src : url('/vendors/font/ConcertOne-Regular.ttf');
+}
+
 body{
   width: 100vw;
   height: 100vh;

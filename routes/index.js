@@ -64,6 +64,10 @@ router.post('/signin', function(req, res, next) {
           } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
             req.session.user_id = user.user_id;
             req.session.user_login = user.user_login;
+            models.broquiz_user.update(
+              { user_status: 9 },
+              { where: { user_id: req.session.user_id } }
+            );
             success('Connected');
           } else {
             error('Mot de passe éronné !');
@@ -155,8 +159,8 @@ router.post('/signup', function(req, res, next) {
       user_salt: salt,
       user_country: signup_country,
       user_points: 0,
-      user_status: 1,
-      user_role: 2
+      user_status: 10,
+      user_role: 4
     });
 
     signup_error = undefined;
@@ -177,6 +181,10 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/disconnect', function(req, res, next) {
+  models.broquiz_user.update(
+    { user_status: 10 },
+    { where: { user_id: req.session.user_id } }
+  );
   req.session.destroy();
   res.render('index');
 });
