@@ -3,15 +3,15 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('broquiz_friend',
+            return queryInterface.createTable('broquiz_question',
             {
-                "friend_id": {
+                "question_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "friend_p1": {
+                "question_creator": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
@@ -19,7 +19,7 @@ module.exports = {
                         "key": "user_id"
                     }
                 },
-                "friend_p2": {
+                "question_validator": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
@@ -27,7 +27,23 @@ module.exports = {
                         "key": "user_id"
                     }
                 },
-                "friend_status": {
+                "question_category": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_category",
+                        "key": "category_id"
+                    }
+                },
+                "question_label": {
+                    "type": "VARCHAR(2500)",
+                    "allowNull": false
+                },
+                "question_image": {
+                    "type": "VARCHAR(1000)",
+                    "allowNull": false
+                },
+                "question_status": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
@@ -38,12 +54,16 @@ module.exports = {
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 }
             })
         })
@@ -55,7 +75,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('broquiz_friend');
+            return queryInterface.dropTable('broquiz_question');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');

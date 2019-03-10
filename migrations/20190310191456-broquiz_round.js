@@ -60,7 +60,7 @@ module.exports = {
                     }
                 },
                 "round_q1_p1": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -68,7 +68,7 @@ module.exports = {
                     }
                 },
                 "round_q1_p2": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -76,7 +76,7 @@ module.exports = {
                     }
                 },
                 "round_q2_p1": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -84,7 +84,7 @@ module.exports = {
                     }
                 },
                 "round_q2_p2": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -92,7 +92,7 @@ module.exports = {
                     }
                 },
                 "round_q3_p1": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -100,7 +100,7 @@ module.exports = {
                     }
                 },
                 "round_q3_p2": {
-                    "type": "INTEGER(1)",
+                    "type": "INTEGER(11)",
                     "allowNull": true,
                     "references": {
                         "model": "broquiz_status",
@@ -110,12 +110,16 @@ module.exports = {
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 }
             })
         })

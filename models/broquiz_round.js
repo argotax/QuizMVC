@@ -57,7 +57,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q1_p1: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
@@ -65,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q1_p2: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
@@ -73,7 +73,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q2_p1: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
@@ -81,7 +81,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q2_p2: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
@@ -89,7 +89,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q3_p1: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
@@ -97,7 +97,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     round_q3_p2: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'broquiz_status',
