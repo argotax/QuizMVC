@@ -40,6 +40,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
+    game_status: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      references: {
+        model: 'broquiz_status',
+        key: 'status_id'
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

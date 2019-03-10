@@ -18,12 +18,16 @@ module.exports = {
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
+                    "defaultValue": {
+                        "val": "CURRENT_TIMESTAMP"
+                    }
                 }
             })
         })
