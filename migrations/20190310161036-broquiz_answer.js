@@ -43,6 +43,10 @@ module.exports = {
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
+<<<<<<< HEAD
+=======
+
+>>>>>>> a5b90dab85e5199f7d624fc6c49943dab74732ad
                     "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             })
