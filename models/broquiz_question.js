@@ -10,11 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     question_creator: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'broquiz_user',
-        key: 'user_id'
-      }
+      allowNull: false
     },
     question_validator: {
       type: DataTypes.INTEGER(11),

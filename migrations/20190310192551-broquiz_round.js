@@ -3,31 +3,23 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('broquiz_question',
+            return queryInterface.createTable('broquiz_round',
             {
-                "question_id": {
+                "round_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "question_creator": {
+                "round_game": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
-                        "model": "broquiz_user",
-                        "key": "user_id"
+                        "model": "broquiz_game",
+                        "key": "game_id"
                     }
                 },
-                "question_validator": {
-                    "type": "INTEGER(11)",
-                    "allowNull": false,
-                    "references": {
-                        "model": "broquiz_user",
-                        "key": "user_id"
-                    }
-                },
-                "question_category": {
+                "round_category": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
@@ -35,20 +27,36 @@ module.exports = {
                         "key": "category_id"
                     }
                 },
-                "question_label": {
-                    "type": "VARCHAR(2500)",
+                "round_p1_score": {
+                    "type": "INTEGER(11)",
                     "allowNull": false
                 },
-                "question_image": {
-                    "type": "VARCHAR(1000)",
+                "round_p2_score": {
+                    "type": "INTEGER(11)",
                     "allowNull": false
                 },
-                "question_status": {
+                "round_q1": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
-                        "model": "broquiz_status",
-                        "key": "status_id"
+                        "model": "broquiz_question",
+                        "key": "question_id"
+                    }
+                },
+                "round_q2": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_question",
+                        "key": "question_id"
+                    }
+                },
+                "round_q3": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_question",
+                        "key": "question_id"
                     }
                 },
                 "createdAt": {
@@ -75,7 +83,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('broquiz_question');
+            return queryInterface.dropTable('broquiz_round');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');

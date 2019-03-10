@@ -56,54 +56,6 @@ module.exports = function(sequelize, DataTypes) {
         key: 'question_id'
       }
     },
-    round_q1_p1: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
-    round_q1_p2: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
-    round_q2_p1: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
-    round_q2_p2: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
-    round_q3_p1: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
-    round_q3_p2: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'broquiz_status',
-        key: 'status_id'
-      }
-    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
