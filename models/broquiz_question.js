@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     question_category: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_category',
         key: 'category_id'
@@ -47,12 +47,12 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     tableName: 'broquiz_question'
