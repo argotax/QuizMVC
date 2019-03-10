@@ -54,20 +54,12 @@ module.exports = {
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-<<<<<<< HEAD
                     "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
-=======
-                    "defaultValue":Sequelize.literal('CURRENT_TIMESTAMP')
->>>>>>> a5b90dab85e5199f7d624fc6c49943dab74732ad
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-<<<<<<< HEAD
                     "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
-=======
-                    "defaultValue":Sequelize.literal('CURRENT_TIMESTAMP')
->>>>>>> a5b90dab85e5199f7d624fc6c49943dab74732ad
                 }
             })
         })
