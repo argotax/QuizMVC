@@ -18,18 +18,17 @@ module.exports = {
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": {
-                        "val": "CURRENT_TIMESTAMP"
-                    }
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": {
-                        "val": "CURRENT_TIMESTAMP"
-                    }
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             })
+            .then(function () {
+                queryInterface.sequelize.query("insert into broquiz_status_type (status_type_label) values ('Question'),('Role'),('Ami'),('Réponse'),('Utilisateur'),('Game')");
+            });
         })
 
         .then(() => {

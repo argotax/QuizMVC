@@ -3,39 +3,47 @@ module.exports = {
     up: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.createTable('broquiz_status',
+            return queryInterface.createTable('broquiz_answer',
             {
-                "status_id": {
+                "answer_id": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true
                 },
-                "status_type": {
+                "answer_question": {
                     "type": "INTEGER(11)",
                     "allowNull": false,
                     "references": {
-                        "model": "broquiz_status_type",
-                        "key": "status_type_id"
+                        "model": "broquiz_question",
+                        "key": "question_id"
                     }
                 },
-                "status_label": {
-                    "type": "VARCHAR(255)",
+                "answer_label": {
+                    "type": "VARCHAR(1500)",
                     "allowNull": false
+                },
+                "answer_image": {
+                    "type": "VARCHAR(1000)",
+                    "allowNull": false
+                },
+                "answer_status": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
                 },
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": {
-                        "val": "CURRENT_TIMESTAMP"
-                    }
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 },
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": false,
-                    "defaultValue": {
-                        "val": "CURRENT_TIMESTAMP"
-                    }
+                    "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             })
         })
@@ -47,7 +55,7 @@ module.exports = {
     down: function(queryInterface, Sequelize) {
         return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         .then(() => {
-            return queryInterface.dropTable('broquiz_status');
+            return queryInterface.dropTable('broquiz_answer');
         })
         .then(() => {
             return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
