@@ -21,25 +21,14 @@
     <h2 class="title">Parties</h2>
 
     <div class="block-parties">
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
-      <a href="/parties/partie/1" class="parties">Jeff Score 2 - 3</a>
+        {% for element in game %}
+        <a href="/parties/partie/{{element.game_id}}" class="parties">
+          {{ element.player_1.user_login|capitalize ~" "~ element.game_p1_score ~" - "~ element.game_p2_score ~" "~ element.player_2.user_login|capitalize }}
+        </a>
+        {% endfor %}
     </div>
 
-    <div class="block-button-search"><button type="button" name="button" class="btn button-search">Rechercher</button></div>
+    <div class="block-button-search"><button type="button" name="button" class="btn button-search" onclick="searchRandomGame()">Rechercher</button></div>
 
     {% include 'friend.twig' %}
 
@@ -50,4 +39,14 @@
   <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
+
+  <script type="text/javascript">
+
+    var socket = io.connect('http://192.168.1.13:3000');
+
+    function searchRandomGame(){
+      socket.emit('search-random-game', { user: '{{id}}' });
+    }
+
+  </script>
 {% endblock %}

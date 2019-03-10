@@ -94,6 +94,36 @@ app.io.on('connection', function(socket){
       console.log('Error query !')
     )
   })
+
+  socket.on('search-random-game', function(searchRandomGame){
+    models.broquiz_user.findOne({
+      where: {
+        user_status: 9,
+        user_id: {
+          [Op.ne]: searchRandomGame.user
+        }
+      },
+      order: sequelize.random()
+    })
+    .then(result =>
+      models.broquiz_game.create({
+        game_p1: searchRandomGame.user,
+        game_p2: result.user_id,
+        game_p1_score: 0,
+        game_p2_score: 0,
+        game_p1_points: 0,
+        game_p2_points: 0,
+        game_status: 12
+      })
+      .then()
+      .catch(err =>
+        console.log('Error query !')
+      )
+    )
+    .catch(err =>
+      console.log('Error query !')
+    )
+  })
 })
 
 // catch 404 and forward to error handler

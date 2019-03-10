@@ -34,7 +34,7 @@ module.exports = {
                     "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             }).then(function () {
-                queryInterface.sequelize.query("insert into broquiz_status (status_type, status_label) values (1,'Validé'),(1,'En cours de validation'),(2,'Administrateur'),(2,'Joueur'),(3,'Ami'),(3,'Demande envoyée'),(4,'Vraie'),(4,'Fausse'),(5,'Connecté'),(5,'Déconnecté'),(5,'Absent')");
+                queryInterface.sequelize.query("insert into broquiz_status (status_type, status_label) values (1,'Validé'),(1,'En cours de validation'),(2,'Administrateur'),(2,'Joueur'),(3,'Ami'),(3,'Demande envoyée'),(4,'Vraie'),(4,'Fausse'),(5,'Connecté'),(5,'Déconnecté'),(5,'Absent'),(6,'En cours'),(7, 'Terminée')");
             });
         })
 

@@ -26,7 +26,7 @@ module.exports = {
                     "defaultValue": Sequelize.literal('CURRENT_TIMESTAMP')
                 }
             }).then(function () {
-                queryInterface.sequelize.query("insert into broquiz_status_type (status_type_label) values ('Question'),('Role'),('Ami'),('Réponse'),('Utilisateur')");
+                queryInterface.sequelize.query("insert into broquiz_status_type (status_type_label) values ('Question'),('Role'),('Ami'),('Réponse'),('Utilisateur'),('Game')");
             });
         })
 

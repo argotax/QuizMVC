@@ -1,6 +1,6 @@
 var position = 0;
 
-var socket = io.connect('http://10.2.4.18:3000');
+var socket = io.connect('http://192.168.1.13:3000');
 
 function friendRequest() {
   socket.emit('friend-request', { user: '{{id}}', friend: $("#friendLogin").val() } );
