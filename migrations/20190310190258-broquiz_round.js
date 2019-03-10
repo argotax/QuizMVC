@@ -59,6 +59,54 @@ module.exports = {
                         "key": "question_id"
                     }
                 },
+                "round_q1_p1": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
+                "round_q1_p2": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
+                "round_q2_p1": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
+                "round_q2_p2": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
+                "round_q3_p1": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
+                "round_q3_p2": {
+                    "type": "INTEGER(1)",
+                    "allowNull": true,
+                    "references": {
+                        "model": "broquiz_status",
+                        "key": "status_id"
+                    }
+                },
                 "createdAt": {
                     "type": "DATETIME",
                     "allowNull": false,
