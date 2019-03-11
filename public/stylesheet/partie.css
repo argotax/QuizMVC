@@ -84,7 +84,12 @@ body {
   width: 30%;
   height: 50%;
   border-radius: 20px;
+}
+.block-main .block-answer .answer .true {
   background-color: green;
+}
+.block-main .block-answer .answer .false {
+  background-color: red;
 }
 
 .block-main .block-round {

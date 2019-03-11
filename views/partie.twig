@@ -19,44 +19,29 @@
     </div>
 
     <div class="block-partie">
-      <div class="player player-one">Pierre</div>
-      <div class="score score-one">3</div>
+      <div class="player player-one">{{game[0].player_1.user_login|capitalize}}</div>
+      <div class="score score-one">{{game[0].game_p1_score|upper}}</div>
       <div class="dash">-</div>
-      <div class="score score-two">0</div>
-      <div class="player player-two">Jeff</div>
+      <div class="score score-two">{{game[0].game_p2_score|upper}}</div>
+      <div class="player player-two">{{game[0].player_2.user_login|capitalize}}</div>
     </div>
 
     <div class="block-round">
-      <div class="categorie">Voyage</div>
+      {% for element in round %}
+      <div class="categorie">{{element.category.category_label}}</div>
       <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
+        <div class="answer">
+          <div class="answer-box answer-one {% if element.round_q1_p1 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-two {% if element.round_q2_p1 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-three {% if element.round_q3_p1 == 7 %}true{% else %}false{% endif %}"></div>
+        </div>
+        <div class="answer">
+          <div class="answer-box answer-one {% if element.round_q1_p2 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-two {% if element.round_q2_p2 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-three {% if element.round_q3_p2 == 7 %}true{% else %}false{% endif %}"></div>
+        </div>
       </div>
-      <div class="categorie">Sport</div>
-      <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-      </div>
-      <div class="categorie">Série TV</div>
-      <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-      </div>
-      <div class="categorie">Voyage</div>
-      <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-      </div>
-      <div class="categorie">Sport</div>
-      <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-      </div>
-      <div class="categorie">Série TV</div>
-      <div class="block-answer">
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-        <div class="answer"><div class="answer-box answer-one"></div><div class="answer-box answer-two"></div><div class="answer-box answer-three"></div></div>
-      </div>
+      {% endfor %}
     </div>
 
     {% include 'friend.twig' %}

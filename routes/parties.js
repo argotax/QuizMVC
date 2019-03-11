@@ -42,14 +42,13 @@ router.get('/partie/:numero', function(req, res, next) {
   }).then(
     game => {
       models.broquiz_round.findAll({
-        attributes: ['round_id','round_game', 'round_category','round_p1_score', 'round_p2_score', 'round_q1', 'round_q2', 'round_q3'],
+        attributes: ['round_id','round_game', 'round_category','round_p1_score', 'round_p2_score', 'round_q1', 'round_q2', 'round_q3', 'round_q1_p1', 'round_q1_p2', 'round_q2_p1', 'round_q2_p2', 'round_q3_p1', 'round_q3_p2'],
         where:{
           round_game: req.params.numero
         },
         include: [ { model: models.broquiz_category,attributes: ['category_label'], as: 'category'}]
       }).then(
         round => {
-          console.log(round);
           res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game, round: round})
         }
       ).catch(function (err) {
