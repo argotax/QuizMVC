@@ -29,7 +29,7 @@
 
     <div class="block-button">
       <a href="/parties" class="btn btn-dark w-25 mb-3 p-3"><span>Jouer</span></a>
-      <button type="button" class="btn btn-dark w-25 mb-3 p-3">Classement</button>
+      <a href="/classement" class="btn btn-dark w-25 mb-3 p-3"><span>Classement</span></a>
       <button type="button" class="btn btn-dark w-25 mb-3 p-3">Historique</button>
       <a href="/question" class="btn btn-dark w-25 mb-3 p-3"><span>Ajouter une question</span></a>
     </div>
@@ -47,7 +47,7 @@
   <script type="text/javascript">
     var position = 0;
 
-    var socket = io.connect('http://192.168.1.13:3000');
+    var socket = io.connect('http://10.2.4.112:3000');
 
     function friendRequest() {
       socket.emit('friend-request', { user: '{{id}}', friend: $("#friendLogin").val() } );

@@ -19,34 +19,35 @@ const indexRouter = require('./routes/index');
 const accueilRouter = require('./routes/accueil');
 const partiesRouter = require('./routes/parties');
 const questionRouter = require('./routes/question');
+const classementRouter = require('./routes/classement');
 
 const Op = Sequelize.Op;
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'twig');
-app.use(logger('dev'));
-app.use(session({
+app.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'twig')
+.use(logger('dev'))
+.use(session({
   secret: 'tata',
   maxAge: 86400,
   name: 'express_session_cookie',
   proxy: true,
   resave: true,
   saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+}))
+.use(express.json())
+.use(express.urlencoded({ extended: false }))
+.use(cookieParser())
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/socket.io')));
+.use(express.static(path.join(__dirname, 'public')))
+.use(express.static(path.join(__dirname, 'node_modules/socket.io')))
 
-app.use('/', indexRouter);
-app.use('/accueil', accueilRouter);
-app.use('/parties', partiesRouter);
-app.use('/question', questionRouter)
-
-app.io.on('connection', function(socket){
+.use('/', indexRouter)
+.use('/accueil', accueilRouter)
+.use('/parties', partiesRouter)
+.use('/question', questionRouter)
+.use('/classement', classementRouter)
+.io.on('connection', function(socket){
   console.log('connected');
 
   socket.on('friend-request', function(friendRequest){

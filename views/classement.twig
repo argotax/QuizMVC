@@ -18,17 +18,17 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
-    <h2 class="title">Parties</h2>
+    <h2 class="title">Classement</h2>
 
     <div class="block-parties">
-        {% for element in game %}
-        <a href="/parties/partie/{{element.game_id}}" class="parties">
-          {{ element.player_1.user_login|capitalize ~" "~ element.game_p1_score ~" - "~ element.game_p2_score ~" "~ element.player_2.user_login|capitalize }}
+        {% for user in users %}
+        <a href="/user/{{user.user_id}}" class="parties">
+          {{ user.user_login|capitalize ~" "~ user.user_points }}
         </a>
         {% endfor %}
     </div>
 
-    <div class="block-button-search"><button type="button" name="button" class="btn button-search" onclick="searchRandomGame()">Rechercher</button></div>
+
 
     {% include 'friend.twig' %}
 
@@ -44,9 +44,6 @@
 
     var socket = io.connect('http://10.2.4.112:3000');
 
-    function searchRandomGame(){
-      socket.emit('search-random-game', { user: '{{id}}' });
-    }
 
   </script>
 {% endblock %}
