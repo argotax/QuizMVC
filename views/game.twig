@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block css %}
-  <link rel="stylesheet" href="/stylesheet/category.css">
+  <link rel="stylesheet" href="/stylesheet/game.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
 {% endblock %}
 
@@ -18,12 +18,6 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
-    <div class="block-category">
-      {% for element in categories %}
-        <div class="category"><div onclick="chooseCategory({{game}},{{round.round_id}},{{element.category_id}})" class="category-label">{{element.category_label}}</div></div>
-      {% endfor %}
-    </div>
-
     {% include 'friend.twig' %}
 
   </div>
@@ -33,16 +27,4 @@
   <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
-
-  <script type="text/javascript">
-    var socket = io.connect('http://localhost:3000');
-
-    function chooseCategory(game, round, category){
-      socket.emit('choose-category', { game:game, round:round, category: category });
-    }
-
-    socket.on('redirect', function (data) {
-      window.location.href = data;
-    });
-  </script>
 {% endblock %}

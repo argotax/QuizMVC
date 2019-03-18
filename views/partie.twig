@@ -28,7 +28,7 @@
 
     <div class="block-round">
       {% for element in round %}
-      {% if element.category.category_label != 'None' %}
+      {% if element.category.category_label != undefined %}
         <div class="categorie">{{element.category.category_label}}</div>
       {% endif %}
       <div class="block-answer">

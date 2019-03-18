@@ -131,7 +131,7 @@ app.set('views', path.join(__dirname, 'views'))
       { where: { round_id: chooseCategory.round } }
     )
     .then(result =>
-      //socket.emit('friend-confirmed', {data:confirmRequest.friend})
+      socket.emit('redirect', '/parties/partie/'+chooseCategory.game + '/game/' + chooseCategory.category)
     )
     .catch(err =>
       console.log('Error query !')
