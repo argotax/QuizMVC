@@ -19,10 +19,9 @@
     </div>
 
     <div class="block-category">
-      <div class="category"><div class="category-label">{{categories[0].category_label}}</div></div>
-      <div class="category"><div class="category-label">{{categories[1].category_label}}</div></div>
-      <div class="category"><div class="category-label">{{categories[2].category_label}}</div></div>
-      <div class="category"><div class="category-label">{{categories[3].category_label}}</div></div>
+      {% for element in categories %}
+        <div class="category"><div onclick="chooseCategory({{round.round_id}},{{element.category_id}})" class="category-label">{{element.category_label}}</div></div>
+      {% endfor %}
     </div>
 
     {% include 'friend.twig' %}
@@ -34,4 +33,12 @@
   <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
+
+  <script type="text/javascript">
+    var socket = io.connect('http://localhost:3000');
+
+    function chooseCategory(round, category){
+      socket.emit('choose-category', { round:round, category: category });
+    }
+  </script>
 {% endblock %}

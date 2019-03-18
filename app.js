@@ -124,6 +124,19 @@ app.set('views', path.join(__dirname, 'views'))
       console.log('Error query !')
     )
   })
+
+  socket.on('choose-category', function(chooseCategory){
+    models.broquiz_round.update(
+      { round_category: chooseCategory.category },
+      { where: { round_id: chooseCategory.round } }
+    )
+    .then(result =>
+      //socket.emit('friend-confirmed', {data:confirmRequest.friend})
+    )
+    .catch(err =>
+      console.log('Error query !')
+    )
+  })
 })
 
 // catch 404 and forward to error handler

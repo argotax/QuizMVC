@@ -90,15 +90,28 @@ router.get('/partie/:numero', function(req, res, next) {
   });
 });
 
-router.get('/partie/5/category', function(req, res, next) {
+router.get('/partie/:numero/category', function(req, res, next) {
   models.broquiz_category.findAll({
     attributes: ['category_id','category_label'],
     order: Sequelize.literal('rand()'),
     limit: 4
   }).then(
     category => {
-      res.render('category', {id: req.session.user_id, login: req.session.user_login, categories:category})
-    } 
+      models.broquiz_round.findOne({
+        attributes: ['round_id'],
+        where: {
+          round_game: req.params.numero
+        },
+        order: [['round_id', 'DESC']]
+      }).then(
+        round => {
+          res.render('category', {id: req.session.user_id, login: req.session.user_login, categories:category, round:round})
+        }
+      ).catch(function (err) {
+        console.log('Error query !', err);
+        res.render('category',{id: req.session.user_id, login: req.session.user_login})
+      })
+    }
   ).catch(function (err) {
     console.log('Error query !', err);
     res.render('category',{id: req.session.user_id, login: req.session.user_login})

@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_category: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_category',
         key: 'category_id'
@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q1: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_question',
         key: 'question_id'
@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q2: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_question',
         key: 'question_id'
@@ -50,7 +50,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q3: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_question',
         key: 'question_id'
@@ -58,7 +58,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q1_p1: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
@@ -66,7 +66,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q1_p2: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
@@ -74,7 +74,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q2_p1: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
@@ -82,7 +82,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q2_p2: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
@@ -90,7 +90,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q3_p1: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
@@ -98,7 +98,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     round_q3_p2: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'broquiz_status',
         key: 'status_id'
