@@ -41,12 +41,7 @@
   <script src= "/javascript/friend.js"></script>
 
   <script type="text/javascript">
-
-<<<<<<< HEAD
-    var socket = io.connect('http://10.2.4.112:3000');
-=======
     var socket = io.connect('http://localhost:3000');
->>>>>>> 2147042aa7825772b893d7faf1cf219755b85fe7
 
     function searchRandomGame(){
       socket.emit('search-random-game', { user: '{{id}}' });

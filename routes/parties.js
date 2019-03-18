@@ -49,7 +49,35 @@ router.get('/partie/:numero', function(req, res, next) {
         include: [ { model: models.broquiz_category,attributes: ['category_label'], as: 'category'}]
       }).then(
         round => {
-          res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game, round: round})
+          if (round[0] != undefined) {
+            if (round[round.length-1].round_q1_p1 == 14){
+              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p1})
+            } else {
+              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p2})
+            }
+          } else {
+            models.broquiz_round.create({
+              round_game: req.params.numero,
+              round_category: 7,
+              round_p1_score: 0,
+              round_p2_score: 0,
+              round_q1: 1,
+              round_q2: 1,
+              round_q3: 1,
+              round_q1_p1: 14,
+              round_q1_p2: 14,
+              round_q2_p1: 14,
+              round_q2_p2: 14,
+              round_q3_p1: 14,
+              round_q3_p2: 14
+            })
+            .then(
+              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game, round: round})
+            )
+            .catch(err =>
+              console.log('Error query !')
+            )
+          }
         }
       ).catch(function (err) {
         console.log('Error query !', err);
@@ -59,6 +87,21 @@ router.get('/partie/:numero', function(req, res, next) {
   ).catch(function (err) {
     console.log('Error query !', err);
     res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
+  });
+});
+
+router.get('/partie/5/category', function(req, res, next) {
+  models.broquiz_category.findAll({
+    attributes: ['category_id','category_label'],
+    order: Sequelize.literal('rand()'),
+    limit: 4
+  }).then(
+    category => {
+      res.render('category', {id: req.session.user_id, login: req.session.user_login, categories:category})
+    } 
+  ).catch(function (err) {
+    console.log('Error query !', err);
+    res.render('category',{id: req.session.user_id, login: req.session.user_login})
   });
 });
 

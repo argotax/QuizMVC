@@ -116,7 +116,6 @@ app.set('views', path.join(__dirname, 'views'))
         game_p2_points: 0,
         game_status: 12
       })
-      .then()
       .catch(err =>
         console.log('Error query !')
       )

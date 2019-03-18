@@ -91,18 +91,49 @@ body {
 .block-main .block-answer .answer .false {
   background-color: red;
 }
+.block-main .block-answer .answer .none {
+  background-color: grey;
+}
 
 .block-main .block-round {
   height: 82%;
   width: 80%;
   margin: 0 auto;
-  padding-top: 50px;
+  padding-top: 20px;
 }
 .block-main .block-round .categorie {
   font-family: 'Font', 'Arial', sans-serif;
   font-size: 2rem;
   color: white;
   text-align: center;
+}
+
+.block-main .block-play {
+  margin-top: 20px;
+  text-align: center;
+}
+.block-main .block-play .play {
+  background-color: darkgreen;
+  color: white;
+  width: 100px;
+  text-decoration: none;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: 'Font', 'Arial', sans-serif;
+}
+.block-main .block-play .wait {
+  margin: 0 auto;
+  background-color: grey;
+  color: white;
+  width: 300px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Font', 'Arial', sans-serif;
+}
+.block-main .block-play .play:focus {
+  outline: 0;
 }
 
 /***********************************************************************

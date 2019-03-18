@@ -1,14 +1,14 @@
 {% extends 'layout.twig' %}
 
 {% block css %}
-  <link rel="stylesheet" href="/stylesheet/parties.css">
+  <link rel="stylesheet" href="/stylesheet/category.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
 {% endblock %}
 
 {% block body %}
   <div class="block-main" id="blockMain">
 
-    <a style="color:white;position:absolute" href="/accueil">Retour</a>
+    <a style="color:white;position:absolute" href="/parties">Retour</a>
 
     <div class="block-header">
       <div class="login px-2">
@@ -18,17 +18,12 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
-    <h2 class="title">Classement</h2>
-
-    <div class="block-parties">
-        {% for user in users %}
-        <a href="/user/{{user.user_id}}" class="parties">
-          {{ user.user_login|capitalize ~" "~ user.user_points }}
-        </a>
-        {% endfor %}
+    <div class="block-category">
+      <div class="category"><div class="category-label">{{categories[0].category_label}}</div></div>
+      <div class="category"><div class="category-label">{{categories[1].category_label}}</div></div>
+      <div class="category"><div class="category-label">{{categories[2].category_label}}</div></div>
+      <div class="category"><div class="category-label">{{categories[3].category_label}}</div></div>
     </div>
-
-
 
     {% include 'friend.twig' %}
 
@@ -37,13 +32,6 @@
 
 {% block script%}
   <script src= "/vendors/socket.io/socket.io.js"></script>
-  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
+  <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
-
-  <script type="text/javascript">
-
-    var socket = io.connect('http://localhost:3000');
-
-
-  </script>
 {% endblock %}

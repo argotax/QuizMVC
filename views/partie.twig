@@ -19,31 +19,41 @@
     </div>
 
     <div class="block-partie">
-      <div class="player player-one">{{game[0].player_1.user_login|capitalize}}</div>
-      <div class="score score-one">{{game[0].game_p1_score|upper}}</div>
+      <div class="player player-one">{{game.player_1.user_login|capitalize}}</div>
+      <div class="score score-one">{{game.game_p1_score|upper}}</div>
       <div class="dash">-</div>
-      <div class="score score-two">{{game[0].game_p2_score|upper}}</div>
-      <div class="player player-two">{{game[0].player_2.user_login|capitalize}}</div>
+      <div class="score score-two">{{game.game_p2_score|upper}}</div>
+      <div class="player player-two">{{game.player_2.user_login|capitalize}}</div>
     </div>
 
     <div class="block-round">
       {% for element in round %}
-      <div class="categorie">{{element.category.category_label}}</div>
+      {% if element.category.category_label != 'None' %}
+        <div class="categorie">{{element.category.category_label}}</div>
+      {% endif %}
       <div class="block-answer">
         <div class="answer">
-          <div class="answer-box answer-one {% if element.round_q1_p1 == 7 %}true{% else %}false{% endif %}"></div>
-          <div class="answer-box answer-two {% if element.round_q2_p1 == 7 %}true{% else %}false{% endif %}"></div>
-          <div class="answer-box answer-three {% if element.round_q3_p1 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-one {% if element.round_q1_p1 == 7 %}true{% elseif element.round_q1_p1 == 8 %}false{% else %}none{% endif %}"></div>
+          <div class="answer-box answer-two {% if element.round_q2_p1 == 7 %}true{% elseif element.round_q2_p1 == 8 %}false{% else %}none{% endif %}"></div>
+          <div class="answer-box answer-three {% if element.round_q3_p1 == 7 %}true{% elseif element.round_q3_p1 == 8 %}false{% else %}none{% endif %}"></div>
         </div>
         <div class="answer">
-          <div class="answer-box answer-one {% if element.round_q1_p2 == 7 %}true{% else %}false{% endif %}"></div>
-          <div class="answer-box answer-two {% if element.round_q2_p2 == 7 %}true{% else %}false{% endif %}"></div>
-          <div class="answer-box answer-three {% if element.round_q3_p2 == 7 %}true{% else %}false{% endif %}"></div>
+          <div class="answer-box answer-one {% if element.round_q1_p2 == 7 %}true{% elseif element.round_q1_p2 == 8 %}false{% else %}none{% endif %}"></div>
+          <div class="answer-box answer-two {% if element.round_q2_p2 == 7 %}true{% elseif element.round_q2_p2 == 8 %}false{% else %}none{% endif %}"></div>
+          <div class="answer-box answer-three {% if element.round_q3_p2 == 7 %}true{% elseif element.round_q3_p2 == 8 %}false{% else %}none{% endif %}"></div>
         </div>
       </div>
       {% endfor %}
+      {% if round[5] == undefined %}
+        <div class="block-play">
+          {% if player == id %}
+            <a href="/parties/partie/{{game.game_id}}/category" class="play">Jouer</a>
+          {% else %}
+            <div class="wait">En attente du joueur adverse</div>
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
-
     {% include 'friend.twig' %}
 
   </div>
