@@ -18,6 +18,42 @@
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
     </div>
 
+    <div class="block-main" id="question1">
+      <div class="block-question">
+        <div class="question">{{question[0].question_label}}</div>
+      </div>
+      <div class="block-answer">
+        <div class="answer">{{answer[0].answer_label}}</div>
+        <div class="answer">{{answer[1].answer_label}}</div>
+        <div class="answer">{{answer[2].answer_label}}</div>
+        <div class="answer">{{answer[3].answer_label}}</div>
+      </div>
+    </div>
+
+    <div class="block-main" id="question2">
+      <div class="block-question">
+        <div class="question">{{question[1].question_label}}</div>
+      </div>
+      <div class="block-answer">
+        <div class="answer">{{answer[4].answer_label}}</div>
+        <div class="answer">{{answer[5].answer_label}}</div>
+        <div class="answer">{{answer[6].answer_label}}</div>
+        <div class="answer">{{answer[7].answer_label}}</div>
+      </div>
+    </div>
+
+    <div class="block-main" id="question3">
+      <div class="block-question">
+        <div class="question">{{question[2].question_label}}</div>
+      </div>
+      <div class="block-answer">
+        <div class="answer">{{answer[8].answer_label}}</div>
+        <div class="answer">{{answer[9].answer_label}}</div>
+        <div class="answer">{{answer[10].answer_label}}</div>
+        <div class="answer">{{answer[11].answer_label}}</div>
+      </div>
+    </div>
+
     {% include 'friend.twig' %}
 
   </div>
@@ -27,4 +63,17 @@
   <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
+
+  <script type="text/javascript">
+
+    setTimeout(function(){
+      document.getElementById("question1").style.display = "none";
+      document.getElementById("question2").style.display = "block"
+    }, 30000);
+    setTimeout(function(){
+      document.getElementById("question2").style.display = "none";
+      document.getElementById("question3").style.display = "block"
+    }, 60000);
+
+  </script>
 {% endblock %}

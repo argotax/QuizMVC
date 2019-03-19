@@ -38,3 +38,48 @@ body {
 .block-main .block-header .container-i.left i {
   transition: transform 0.2s ease-in-out;
 }
+
+.block-main .block-question {
+  height: 30%;
+  width: 60%;
+  margin: 0 auto;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+.block-main .block-question .question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 100%;
+  font-size: 2.5rem;
+}
+
+.block-main .block-answer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 50%;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 25px;
+}
+.block-main .block-answer .answer {
+  width: 48%;
+  height: 40%;
+  border: 2px solid white;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.block-main .block-answer .answer:hover {
+  background-color: lightcoral;
+}
+
+#question2, #question3 {
+  display: none;
+}

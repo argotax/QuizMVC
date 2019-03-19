@@ -3,6 +3,10 @@ var router = express.Router();
 const models = require('../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const sequelize = new Sequelize('broquiz', 'root', 'root', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
 var app = express();
 
@@ -118,28 +122,22 @@ router.get('/partie/:numero/game/:category', function(req, res, next) {
     limit: 3
   }).then(
     question => {
-      question.forEach(function(element) {
-        models.broquiz_answer.findAll({
-          attributes: ['answer_id','answer_question', 'answer_label','answer_image', 'answer_status'],
-          where:{
-            answer_question: element.question_id
+      models.broquiz_answer.findAll({
+        attributes: ['answer_id','answer_question', 'answer_label','answer_image', 'answer_status'],
+        where:{
+          answer_question: {
+            [Op.in]: [question[0].question_id, question[1].question_id, question[2].question_id]
           }
-        }).then(
-          answer => {
-            console.log(question);
-            console.log(answer)
-          }
-        ).catch(function (err) {
-          console.log('Error query !', err);
-          res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
-        });
-      });
+        },
+        order: sequelize.fn('FIELD', sequelize.col('answer_question'), [question[0].question_id, question[1].question_id, question[2].question_id])
+      }).then(
+        answer => {
+          console.log(answer);
+          res.render('game',{id: req.session.user_id, login: req.session.user_login, question: question, answer: answer})
+        }
+      )
     }
-  ).catch(function (err) {
-    console.log('Error query !', err);
-    //res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
-  });
-  //res.render('game',{id: req.session.user_id, login: req.session.user_login})
+  )
 });
 
 module.exports = router;
