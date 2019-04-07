@@ -54,7 +54,8 @@ router.get('/partie/:numero', function(req, res, next) {
       }).then(
         round => {
           if (round[0] != undefined) {
-            if (round[round.length-1].round_q1_p1 == undefined){
+            console.log(round.length);
+            if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
               res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p1})
             } else {
               res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p2})
@@ -99,6 +100,7 @@ router.get('/partie/:numero/category', function(req, res, next) {
         order: [['round_id', 'DESC']]
       }).then(
         round => {
+          req.session.round = round.round_id;
           res.render('category', {id: req.session.user_id, login: req.session.user_login, game:req.params.numero, categories:category, round:round})
         }
       ).catch(function (err) {
@@ -132,8 +134,7 @@ router.get('/partie/:numero/game/:category', function(req, res, next) {
         order: sequelize.fn('FIELD', sequelize.col('answer_question'), [question[0].question_id, question[1].question_id, question[2].question_id])
       }).then(
         answer => {
-          console.log(answer);
-          res.render('game',{id: req.session.user_id, login: req.session.user_login, question: question, answer: answer})
+          res.render('game',{id: req.session.user_id, login: req.session.user_login, question: question, answer: answer, round:req.session.round, game:req.params.numero})
         }
       )
     }

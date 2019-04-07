@@ -137,6 +137,38 @@ app.set('views', path.join(__dirname, 'views'))
       console.log('Error query !')
     )
   })
+
+  socket.on('player-answer', function(answerResponse){
+    models.broquiz_round.findAll({
+      attributes: ['round_q1_p1', 'round_q1_p2'],
+      where:{
+        round_game: answerResponse.game
+      }
+    }).then(
+      round => {
+        if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
+          models.broquiz_round.update(
+            { round_q1_p1: answerResponse.answer[0], round_q2_p1: answerResponse.answer[1], round_q3_p1: answerResponse.answer[2]},
+            { where: { round_id: answerResponse.round } }
+          )
+          .catch(err =>
+            console.log('Error query !')
+          )
+        } else {
+          models.broquiz_round.update(
+            { round_q1_p2: answerResponse.answer[0], round_q2_p2: answerResponse.answer[1], round_q3_p2: answerResponse.answer[2]},
+            { where: { round_id: answerResponse.round } }
+          )
+          .catch(err =>
+            console.log('Error query !')
+          )
+        }
+      }
+    ).catch(function (err) {
+      console.log('Error query !', err);
+      res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
+    });
+  })
 })
 
 // catch 404 and forward to error handler
