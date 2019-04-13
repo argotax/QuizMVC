@@ -54,7 +54,6 @@ router.get('/partie/:numero', function(req, res, next) {
       }).then(
         round => {
           if (round[0] != undefined) {
-            console.log(round.length);
             if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
               res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p1})
             } else {
@@ -67,7 +66,7 @@ router.get('/partie/:numero', function(req, res, next) {
               round_p2_score: 0
             })
             .then(
-              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game, round: round, player: game[0].game_p1})
+              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], player: game[0].game_p1})
             )
             .catch(err =>
               console.log('Error query !')
@@ -120,7 +119,6 @@ router.get('/partie/:numero/game/:category', function(req, res, next) {
     where:{
       question_category: req.params.category
     },
-    order: Sequelize.literal('rand()'),
     limit: 3
   }).then(
     question => {
@@ -134,10 +132,65 @@ router.get('/partie/:numero/game/:category', function(req, res, next) {
         order: sequelize.fn('FIELD', sequelize.col('answer_question'), [question[0].question_id, question[1].question_id, question[2].question_id])
       }).then(
         answer => {
-          res.render('game',{id: req.session.user_id, login: req.session.user_login, question: question, answer: answer, round:req.session.round, game:req.params.numero})
+          models.broquiz_round.update(
+            { round_q1: question[0].question_id,
+              round_q2: question[1].question_id,
+              round_q3: question[2].question_id
+            },
+            { where: { round_id: req.session.round } }
+          )
+          .then(result =>
+            res.redirect('../game/round/'+req.session.round)
+          )
+          .catch(err =>
+            console.log('Error query !')
+          )
         }
       )
     }
+  )
+});
+
+router.get('/partie/:numero/game/round/:round', function(req, res, next) {
+  models.broquiz_round.findOne({
+    where:{
+      round_id: req.params.round
+    }
+  }).then(
+    round => {
+      models.broquiz_question.findAll({
+        where:{
+          question_id: {
+            [Op.in]: [round.round_q1, round.round_q2, round.round_q3]
+          }
+        }
+      }).then(
+        question => {
+          models.broquiz_answer.findAll({
+            attributes: ['answer_id','answer_question', 'answer_label','answer_image', 'answer_status'],
+            where:{
+              answer_question: {
+                [Op.in]: [question[0].question_id, question[1].question_id, question[2].question_id]
+              }
+            },
+            order: sequelize.fn('FIELD', sequelize.col('answer_question'), [question[0].question_id, question[1].question_id, question[2].question_id])
+          }).then(
+            answer => {
+              res.render('game',{id: req.session.user_id, login: req.session.user_login, question: question, answer: answer, round:round.round_id, game:req.params.numero})
+            }
+          )
+          .catch(err =>
+            console.log('Error query !')
+          )
+        }
+      )
+      .catch(err =>
+        console.log('Error query !')
+      )
+    }
+  )
+  .catch(err =>
+    console.log('Error query !')
   )
 });
 

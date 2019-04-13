@@ -172,7 +172,7 @@
       }
       if (compteur == 2) {
         socket.emit('player-answer', { answer:tabResult, id:{{id}}, round:{{round}}, game:{{game}} });
-        window.location.href = "../";
+        window.location.href = "../../";
       }
     }
 
@@ -198,8 +198,7 @@
       if (compteur==2) {
         tabResult[compteur] = 14;
       }
-      //
-      window.location.href = "../";
+      window.location.href = "../../";
     }, 15000);
 
   </script>

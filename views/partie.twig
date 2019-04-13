@@ -46,8 +46,10 @@
       {% endfor %}
       {% if round[5] == undefined %}
         <div class="block-play">
-          {% if player == id %}
+          {% if (player == id) and (round[(round|length)-1].round_category is not defined) %}
             <a href="/parties/partie/{{game.game_id}}/category" class="play">Jouer</a>
+          {% elseif player == id %}
+            <a href="/parties/partie/{{game.game_id}}/game/round/{{round[(round|length)-1].round_id}}" class="play">Jouer</a>
           {% else %}
             <div class="wait">En attente du joueur adverse</div>
           {% endif %}
