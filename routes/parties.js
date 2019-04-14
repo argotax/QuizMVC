@@ -60,17 +60,7 @@ router.get('/partie/:numero', function(req, res, next) {
               res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], round: round, player: game[0].game_p2})
             }
           } else {
-            models.broquiz_round.create({
-              round_game: req.params.numero,
-              round_p1_score: 0,
-              round_p2_score: 0
-            })
-            .then(
-              res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], player: game[0].game_p1})
-            )
-            .catch(err =>
-              console.log('Error query !')
-            )
+            res.render('partie', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends, game: game[0], player: game[0].game_p1})
           }
         }
       ).catch(function (err) {
@@ -85,32 +75,42 @@ router.get('/partie/:numero', function(req, res, next) {
 });
 
 router.get('/partie/:numero/category', function(req, res, next) {
-  models.broquiz_category.findAll({
-    attributes: ['category_id','category_label'],
-    order: Sequelize.literal('rand()'),
-    limit: 4
-  }).then(
-    category => {
-      models.broquiz_round.findOne({
-        attributes: ['round_id'],
-        where: {
-          round_game: req.params.numero
-        },
-        order: [['round_id', 'DESC']]
-      }).then(
-        round => {
-          req.session.round = round.round_id;
-          res.render('category', {id: req.session.user_id, login: req.session.user_login, game:req.params.numero, categories:category, round:round})
-        }
-      ).catch(function (err) {
-        console.log('Error query !', err);
-        res.render('category',{id: req.session.user_id, login: req.session.user_login})
-      })
-    }
-  ).catch(function (err) {
-    console.log('Error query !', err);
-    res.render('category',{id: req.session.user_id, login: req.session.user_login})
-  });
+  models.broquiz_round.create({
+    round_game: req.params.numero,
+    round_p1_score: 0,
+    round_p2_score: 0
+  })
+  .then(
+    models.broquiz_category.findAll({
+      attributes: ['category_id','category_label'],
+      order: Sequelize.literal('rand()'),
+      limit: 4
+    }).then(
+      category => {
+        models.broquiz_round.findOne({
+          attributes: ['round_id'],
+          where: {
+            round_game: req.params.numero
+          },
+          order: [['round_id', 'DESC']]
+        }).then(
+          round => {
+            req.session.round = round.round_id;
+            res.render('category', {id: req.session.user_id, login: req.session.user_login, game:req.params.numero, categories:category, round:round})
+          }
+        ).catch(function (err) {
+          console.log('Error query !', err);
+          res.render('category',{id: req.session.user_id, login: req.session.user_login})
+        })
+      }
+    ).catch(function (err) {
+      console.log('Error query !', err);
+      res.render('category',{id: req.session.user_id, login: req.session.user_login})
+    })
+  )
+  .catch(err =>
+    console.log('Error query !')
+  )
 });
 
 router.get('/partie/:numero/game/:category', function(req, res, next) {

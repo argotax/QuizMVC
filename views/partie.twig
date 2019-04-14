@@ -44,15 +44,19 @@
         </div>
       </div>
       {% endfor %}
-      {% if round[5] == undefined %}
+      {% if round[5].round_q3_p1 == undefined or round[5].round_q3_p2 == undefined %}
         <div class="block-play">
-          {% if (player == id) and (round[(round|length)-1].round_category is not defined) %}
+          {% if ((player == id) and (round[(round|length)-1].round_category is not defined)) or ((player == id) and (round[(round|length)-1].round_q3_p1 is not null) and (round[(round|length)-1].round_q3_p2 is not null)) %}
             <a href="/parties/partie/{{game.game_id}}/category" class="play">Jouer</a>
           {% elseif player == id %}
             <a href="/parties/partie/{{game.game_id}}/game/round/{{round[(round|length)-1].round_id}}" class="play">Jouer</a>
           {% else %}
             <div class="wait">En attente du joueur adverse</div>
           {% endif %}
+        </div>
+      {% else %}
+        <div class="block-play">
+          <div class="play">Partie terminée</div>
         </div>
       {% endif %}
     </div>

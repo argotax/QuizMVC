@@ -115,13 +115,14 @@ body {
 .block-main .block-play .play {
   background-color: darkgreen;
   color: white;
-  width: 100px;
+  width: 200px;
   text-decoration: none;
   padding: 10px 30px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   font-family: 'Font', 'Arial', sans-serif;
+  margin: 0 auto;
 }
 .block-main .block-play .wait {
   margin: 0 auto;
