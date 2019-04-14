@@ -50,7 +50,8 @@ router.get('/partie/:numero', function(req, res, next) {
         where:{
           round_game: req.params.numero
         },
-        include: [ { model: models.broquiz_category,attributes: ['category_label'], as: 'category'}]
+        include: [ { model: models.broquiz_category,attributes: ['category_label'], as: 'category'}],
+        order: [['round_id', 'ASC']]
       }).then(
         round => {
           if (round[0] != undefined) {

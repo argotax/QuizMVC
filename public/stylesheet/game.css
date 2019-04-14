@@ -39,6 +39,15 @@ body {
   transition: transform 0.2s ease-in-out;
 }
 
+.block-main .progress {
+  width: 75%;
+  margin: 20px auto;
+  height: 1.5rem;
+}
+.block-main .progress .progress-bar {  
+  transition: none;
+}
+
 .block-main .block-question {
   height: 30%;
   width: 60%;
