@@ -35,7 +35,6 @@
   <script src= "/javascript/friend.js"></script>
 
   <script type="text/javascript">
-    var socket = io.connect('http://192.168.1.13:3000');
 
     function chooseCategory(game, round, category){
       socket.emit('choose-category', { game:game, round:round, category: category });
