@@ -64,7 +64,6 @@
 {% endblock %}
 
 {% block script%}
-  <script src= "/vendors/socket.io/socket.io.js"></script>
   <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
   <script type="text/javascript">
@@ -252,12 +251,12 @@
 
         current_progress = 0;
         interval = setInterval(function() {
-          current_progress += 1;
+          current_progress += 0.2;
           $(".progress-bar")
           .css("width", current_progress + "%")
           if (current_progress >= 100)
           clearInterval(interval);
-        }, 30);
+        }, 40);
 
         compteur++;
         lock = false;

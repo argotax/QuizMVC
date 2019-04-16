@@ -3,6 +3,7 @@
 {% block css %}
 
   <link rel="stylesheet" href="/stylesheet/accueil.css">
+  <link rel="stylesheet" href="/stylesheet/friend.css">
 
 {% endblock %}
 
@@ -10,7 +11,7 @@
 
   <div class="block-main" id="blockMain">
 
-    <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
+    <a style="color:white;position:absolute" href="/accueil">Retour</a>
 
     <div class="block-header">
       <div class="login px-2">
@@ -24,100 +25,70 @@
 
     <div class="block-button">
 
-    <form class="col-6" id="questionForm" action="/addQuestion" method="post">
-      <div class="row mb-4">
-        <div class="col-8">
-          <label for="category">Category</label>
+      <form class="col-6" id="questionForm" action="/question/add" method="post">
 
-          <input list="category" name="category">
-
-
-          <datalist id="category">
-          {% for category in categories %}
-            <option value="{{category}}">
-          {% endfor %}
-          </datalist>
-
+        <div class="form-group row mb-4">
+          <label for="category" class="col-sm-3">Categorie</label>
+          <div class="col-sm-9">
+            <select id="category" name="category" class="form-control">
+              {% for categories in category %}
+                <option value="{{categories.category_id}}">{{categories.category_label}}</option>
+              {% endfor %}
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-12">
-          <label for="question">Question</label>
-          <input type="text" class="form-control" id="question" placeholder="Entrer votre question" name="question">
+
+        <div class="form-group row mb-4">
+          <label for="question" class="col-sm-3">Question</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Entrer votre question" name="question">
+          </div>
         </div>
-      </div>
 
-      <button type="submit" class="btn btn-primary">Valider</button>
+        <div class="form-group row mb-4">
+          <label for="reponse1" class="col-sm-3">Vraie réponse 1</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Entrer une réponse" name="reponse1">
+          </div>
+        </div>
 
-    </form>
+        <div class="form-group row mb-4">
+          <label for="reponse2" class="col-sm-3">Réponse 2</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Entrer une réponse" name="reponse2">
+          </div>
+        </div>
+
+        <div class="form-group row mb-4">
+          <label for="reponse3" class="col-sm-3">Réponse 3</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Entrer une réponse" name="reponse3">
+          </div>
+        </div>
+
+        <div class="form-group row mb-4">
+          <label for="reponse4" class="col-sm-3">Réponse 4</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Entrer une réponse" name="reponse4">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Valider</button>
+
+      </form>
 
     </div>
+
+    {% include 'friend.twig' %}
 
   </div>
 
-  <div class="block-friend" id="blockFriend">
-
-    <div class="block-header">
-      <div class="friend-box p-1 friend-connected">
-        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-        <div class="friend-count mx-2">5</div>
-      </div>
-      <div class="friend-box p-1 friend-absent">
-        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-        <div class="friend-count mx-2">5</div>
-      </div>
-      <div class="friend-box p-1 friend-disconnected">
-        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-        <div class="friend-count mx-2">5</div>
-      </div>
-    </div>
-
-    <div class="friend-list-wrapper" id="friend-list">
-
-      <div class="input-group my-3 w-75">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1">🔍</span>
-        </div>
-        <input type="text" class="form-control instant-search" id="friendLogin" name="friendLogin" placeholder="Chercher un ami" aria-label="Username" aria-describedby="basic-addon1">
-        <div class="input-group-append">
-          <span class="input-group-text add-friend-button">➕</span>
-        </div>
-      </div>
-
-      <div class="scroll friend-list-block">
-        <ul class="list">
-
-        </ul>
-      </div>
-    </div>
-  </div>
 
 {% endblock %}
 
 {% block script%}
 
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
-  <script type="text/javascript">
-    var position = 0;
-
-    function displayFriend() {
-      if (position == 0) {
-        $("#blockFriend").css("left","70%");
-        $("#blockMain").css("width","70%");
-        $("#leftArrow").css("transform","rotate(180deg)");
-        position = 1;
-      } else {
-        $("#blockFriend").css("left","100%");
-        $("#blockMain").css("width","100%");
-        $("#leftArrow").css("transform","rotate(0deg)");
-        position = 0;
-      }
-
-      var list = new List('friend-list', {
-        valueNames: ['name']
-      });
-
-    }
-  </script>
+  <script src= "/javascript/friend.js"></script>
 
 {% endblock %}
