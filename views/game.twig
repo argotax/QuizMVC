@@ -22,15 +22,19 @@
       <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
     </div>
 
+    {% set random1 = random(['0123','0132','0213','0231','0312','0321','1023','1032','1203','1230','1302','1320','2031','2013','2103','2130','2301','2310','3012','3021','3102','3120','3201','3210']) %}
+    {% set random2 = random(['4567','4576','4657','4675','4756','4765','5467','5476','5647','5674','5746','5764','6475','6457','6547','6574','6745','6754','7456','7465','7546','7564','7645','7654']) %}
+    {% set random3 = random(['10111213','10111312','10121113','10121311','10131112','10131211','11101213','11101312','11121013','11121310','11131012','11131210','12101311','12101113','12111013','12111310','12131011','12131110','13101112','13101211','13111012','13111210','13121011','13121110']) %}
+
     <div class="block-main" id="question1">
       <div class="block-question">
         <div class="question">{{question[0].question_label}}</div>
       </div>
       <div class="block-answer">
-        <div class="answer" onclick="verifAnswer(1, 2, 0, 0)">{{answer[0].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(1, 2, 0, 1)">{{answer[1].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(1, 2, 0, 2)">{{answer[2].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(1, 2, 0, 3)">{{answer[3].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(1, 2, 0, {{random1|slice(0, 1)}}, 0)">{{answer[random1|slice(0, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(1, 2, 0, {{random1|slice(1, 1)}}, 1)">{{answer[random1|slice(1, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(1, 2, 0, {{random1|slice(2, 1)}}, 2)">{{answer[random1|slice(2, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(1, 2, 0, {{random1|slice(3, 1)}}, 3)">{{answer[random1|slice(3, 1)].answer_label}}</div>
       </div>
     </div>
 
@@ -39,10 +43,10 @@
         <div class="question">{{question[1].question_label}}</div>
       </div>
       <div class="block-answer">
-        <div class="answer" onclick="verifAnswer(2, 3, 1, 4)">{{answer[4].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(2, 3, 1, 5)">{{answer[5].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(2, 3, 1, 6)">{{answer[6].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(2, 3, 1, 7)">{{answer[7].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(2, 3, 1, {{random2|slice(0, 1)}}, 4)">{{answer[random2|slice(0, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(2, 3, 1, {{random2|slice(1, 1)}}, 5)">{{answer[random2|slice(1, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(2, 3, 1, {{random2|slice(2, 1)}}, 6)">{{answer[random2|slice(2, 1)].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(2, 3, 1, {{random2|slice(3, 1)}}, 7)">{{answer[random2|slice(3, 1)].answer_label}}</div>
       </div>
     </div>
 
@@ -51,10 +55,10 @@
         <div class="question">{{question[2].question_label}}</div>
       </div>
       <div class="block-answer">
-        <div class="answer" onclick="verifAnswer(3, 3, 1, 8)">{{answer[8].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(3, 3, 1, 9)">{{answer[9].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(3, 3, 1, 10)">{{answer[10].answer_label}}</div>
-        <div class="answer" onclick="verifAnswer(3, 3, 1, 11)">{{answer[11].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(3, 3, 2, {{(random3|slice(0, 2))-2}}, 8)">{{answer[(random3|slice(0, 2))-2].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(3, 3, 2, {{(random3|slice(2, 2))-2}}, 9)">{{answer[(random3|slice(2, 2))-2].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(3, 3, 2, {{(random3|slice(4, 2))-2}}, 10)">{{answer[(random3|slice(4, 2))-2].answer_label}}</div>
+        <div class="answer" onclick="verifAnswer(3, 3, 2, {{(random3|slice(6, 2))-2}}, 11)">{{answer[(random3|slice(6, 2))-2].answer_label}}</div>
       </div>
     </div>
 
@@ -226,14 +230,14 @@
       }, 20000);
     }
 
-    function verifAnswer(none, block, timer, select){
+    function verifAnswer(none, block, timer, select, swap){
 
       if (answer[select][4] == 7 && lock == false) {
-        document.getElementsByClassName("answer")[select].style.backgroundColor = "green";
+        document.getElementsByClassName("answer")[swap].style.backgroundColor = "green";
         tabResult[compteur] = 7;
         lock = true;
       } else if (lock == false) {
-        document.getElementsByClassName("answer")[select].style.backgroundColor = "red";
+        document.getElementsByClassName("answer")[swap].style.backgroundColor = "red";
         tabResult[compteur] = 8;
         lock = true;
       }
