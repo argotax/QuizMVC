@@ -20,6 +20,7 @@ const accueilRouter = require('./routes/accueil');
 const partiesRouter = require('./routes/parties');
 const questionRouter = require('./routes/question');
 const classementRouter = require('./routes/classement');
+const profileRouter = require('./routes/profile');
 
 const Op = Sequelize.Op;
 
@@ -46,6 +47,7 @@ app.set('views', path.join(__dirname, 'views'))
 .use('/accueil', accueilRouter)
 .use('/parties', partiesRouter)
 .use('/question', questionRouter)
+.use('/profile', profileRouter)
 .use('/classement', classementRouter)
 .io.on('connection', function(socket){
   console.log('connected');
