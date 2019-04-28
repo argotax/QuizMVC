@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block css %}
+  <link rel="stylesheet" href="/stylesheet/modify-profile.css">
+  <link rel="stylesheet" href="/stylesheet/friend.css">
+{% endblock %}
+
+{% block body %}
+  <div class="block-main" id="blockMain">
+
+    <a style="color:white;position:absolute" href="/accueil">Retour</a>
+
+    <div class="block-header">
+      <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
+      <div class="profile-picture"></div>
+      <div class="modify-banner-picture">Modifier la photo de couverture</div>
+      <div class="modify-profile-picture">Modifier la photo de profil</div>
+    </div>
+
+    <div class="block-body">
+      <div class="block-menu">
+        <a style="color:white;position:absolute" href="/profile">Retour</a>
+      </div>
+
+      <div class="block-info">
+
+      </div>
+    </div>
+
+
+    {% include 'friend.twig' %}
+
+  </div>
+{% endblock %}
+
+{% block script%}
+  <script src="/vendors/list/list.min.js" charset="utf-8"></script>
+  <script src= "/javascript/friend.js"></script>
+{% endblock %}

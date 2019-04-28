@@ -30,6 +30,9 @@ body {
   cursor: pointer;
   color: white;
 }
+.block-main .block-header .container-i a {
+  color: white;
+}
 .block-main .block-header .container-i.left {
   background-color: orange;
   border-top-left-radius: 3px;
