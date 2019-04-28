@@ -6,128 +6,95 @@ var datetime = require('node-datetime');
 var bodyParser = require('body-parser');
 const models = require('../models');
 
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities();
+
 const Sequelize = require('sequelize');
 
 var app = express();
-var categories = [];
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
 
-
-
 /* GET user */
 router.get('/', function(req, res, next) {
+
+  var categories = [];
 
   models
   .broquiz_category
   .findAll({
-    attributes: ['category_label']
-
+    attributes: ['category_id', 'category_label']
   }).then(
     category => {
-      category.forEach(function(element) {
-        categories.push(element.category_label);
-        console.log(categories);
-        res.render('question',{id: req.session.user_id, login: req.session.user_login, categories : categories});
-      });
+      res.render('question',{id: req.session.user_id, login: req.session.user_login, category : category});
     }
   );
 
 });
 
-router.post('/addQuestion', function(req, res, next) {
+router.post('/add', function(req, res, next) {
+
   user_id = req.session.user_id;
   user_login = req.session.user_login;
-  question_category = req.body.category;
-  question_question = req.body.question;
-
+  category = req.body.category;
+  question = req.body.question;
+  answer1 = req.body.reponse1;
+  answer2 = req.body.reponse2;
+  answer3 = req.body.reponse3;
+  answer4 = req.body.reponse4;
 
   var validationQuestion = new Promise((success,error) => {
-    if(validator.isEmpty(question_category) || validator.isEmpty(question_question)){
+    if(validator.isEmpty(category) || validator.isEmpty(question) || validator.isEmpty(answer1) || validator.isEmpty(answer2) || validator.isEmpty(answer3) || validator.isEmpty(answer4)){
       error('Tout les champs ne sont pas complets !');
-    } else if (entities.encode(question_question) != question_question) {
+    } /*else if (entities.encode(question) != question){
       error('Votre question n\'est pas valide !');
-    } else if (validator.isEmpty(question_category) == false && validator.isEmpty(question_question) == false) {
-      models
-      .broquiz_question
-      .findOne({
-        where:{ question_label: question_question }
+    } else if (entities.encode(answer1) != answer1){
+      error('Votre réponse1  n\'est pas valide !');
+    } else if (entities.encode(answer2) != answer2){
+      error('Votre réponse2  n\'est pas valide !');
+    } else if (entities.encode(answer3) != answer3){
+      error('Votre réponse3  n\'est pas valide !');
+    } else if (entities.encode(answer4) != answer4){
+      error('Votre réponse4  n\'est pas valide !');
+    }*/  else {
+      models.broquiz_question.create({
+        question_creator: 1,
+        question_validator: 2,
+        question_category: category,
+        question_label: question,
+        question_image: '',
+        question_status: 1
       }).then(
-        user => {
-          if (user) {
-            error('Cette question existe déjà !');
-          }
+        result => {
+          console.log(result.question_id);
+          models.broquiz_answer.bulkCreate([
+            {answer_question: result.question_id, answer_label: answer1, answer_image: '', answer_status: 7},
+            {answer_question: result.question_id, answer_label: answer2, answer_image: '', answer_status: 8},
+            {answer_question: result.question_id, answer_label: answer3, answer_image: '', answer_status: 8},
+            {answer_question: result.question_id, answer_label: answer4, answer_image: '', answer_status: 8}
+          ]).then(
+            success('Question ajoutée !')
+          ).catch(err =>
+            console.log('Error query !')
+          );
         }
-      );
-      models
-      .broquiz_category
-      .findOne({
-        where:{ category_label: question_category }
-      }).then(
-        category => {
-          if (category) {
-            /*Attribuer la categorie finale*/
-          }else{
-            /*attribuer la categorie temporaire elle ne sera définitive qu'une fois la question validé par un admin*/
-          }
-        }
-      );
+      ).catch(err =>
+        console.log('Error query !')
+      )
     }
   })
 
-  validationSignup
+  validationQuestion
   .then(function(success) {
-    signup_login = entities.encode(signup_login);
-    var salt = bcrypt.genSaltSync(saltRounds);
-    var hash = bcrypt.hashSync(signup_password, salt);
-    if (signup_country.indexOf('(') != -1) {
-      signup_country = (signup_country.slice(0,signup_country.indexOf('(')));
-    }
-    var dt = datetime.create();
-    var creation = dt.format('Y/m/d H:M:S');
-
-    models
-    .broquiz_user
-    .create({
-      user_login: signup_login,
-      user_email: signup_email,
-      user_password: hash,
-      user_salt: salt,
-      user_country: signup_country,
-      user_points: 0,
-      user_status: 1,
-      user_role: 2
-    });
-
-    models
-    .broquiz_user
-    .findOne({
-      where:{ user_login: signup_login },
-      attributes: ['user_id', 'user_login']
-    }).then(
-      user => {
-        req.session.id = user.user_id;
-        req.session.login = user.user_login;
-      }
-    );
-
-    signup_error = undefined;
-
-    signup_login = undefined;
-    signup_password = undefined;
-    signup_confpassword = undefined;
-    signup_email = undefined;
-    signup_confemail = undefined;
-    signup_country = undefined;
-
-    res.redirect('/accueil');
-
+    console.log(success);
+    res.redirect('/question');
   })
   .catch(function(error) {
-    res.render('index', { signup_error: error, login: signup_login, email: signup_email, confemail: signup_confemail, country: signup_country });
+    console.log(error);
+    res.render('question');
   });
 });
 
