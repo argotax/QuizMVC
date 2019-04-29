@@ -120,6 +120,7 @@ router.get('/partie/:numero/game/:category', function(req, res, next) {
     where:{
       question_category: req.params.category
     },
+    order: Sequelize.literal('rand()'),
     limit: 3
   }).then(
     question => {
