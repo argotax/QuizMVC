@@ -19,7 +19,7 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "node-datetime": "^2.1.2",
-    "node-gyp": "^3.8.0",
+    "node-gyp": "^4.0.0",
     "sequelize": "^4.42.0",
     "sequelize-auto-migrations": "^1.0.2",
     "sequelize-cli": "^5.4.0",
