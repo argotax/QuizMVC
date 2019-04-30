@@ -48,11 +48,11 @@ body {
   left: 0%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
   color: white;
   font-size: 1rem;
   cursor: pointer;
+  padding-top: 75px;
 }
 .block-main .block-header .modify-banner-picture:hover {
   border: 5px solid orange  ;
@@ -93,7 +93,4 @@ body {
 }
 .block-main .block-header .modify-profile-picture:hover {
   border: 5px solid orange;
-}
-.block-main .block-header .modify-profile-picture:hover .modify-banner-picture {
-  opacity: 0;
 }
