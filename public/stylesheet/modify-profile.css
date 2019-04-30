@@ -63,8 +63,8 @@ body {
 .block-main .block-header .profile-picture {
   border-radius: 100%;
   position: absolute;
-  height: 300px;
-  width: 300px;
+  height: 250px;
+  width: 250px;
   top: 100%;
   left: 50%;
   transform: translate(-50%,-50%);
@@ -77,8 +77,8 @@ body {
 .block-main .block-header .modify-profile-picture {
   border-radius: 100%;
   position: absolute;
-  height: 300px;
-  width: 300px;
+  height: 250px;
+  width: 250px;
   top: 100%;
   left: 50%;
   transform: translate(-50%,-50%);
@@ -93,4 +93,17 @@ body {
 }
 .block-main .block-header .modify-profile-picture:hover {
   border: 5px solid orange;
+}
+
+.block-main .block-body {
+  height: 60%;
+}
+.block-main .block-body .block-menu {
+  height: 10%;
+}
+.block-main .block-body .block-info {
+  height: 90%;
+}
+.block-main .block-body .block-info .modify-form {
+  padding: 20px;
 }
