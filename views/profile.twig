@@ -21,12 +21,43 @@
         <div class="modify-profile"><a href="/profile/modify"><i class="fas fa-cog fa-2x"></i></a></div>
       </div>
 
-      <div class="block-info">
-        {{rang}}
-        wins : {{winLose[0]}}
-        lose : {{winLose[1]}}
-        not answered : {{winLose[2]}}
+      <div class="wrapper-main">
+        <div class="block-pseudo">
+          <h2>Goldenfinger <span class="badge badge-primary">{{rangTab[0]}}</span> </h2>
+        </div>
+        <div class="wrapper-info">
+          <div class="block-info1">
+            <div class="block-countryRank">
+              <h3>Country rank : {{rangTab[1]}}</h3>
+            </div>
+            <div class="block-win">
+              <h3>Right answers : {{winLose[0]}}</h3>
+            </div>
+            <div class="block-lose">
+              <h3>Wrong answers : {{winLose[1]}}</h3>
+            </div>
+            <div class="block-noanswer">
+              <h3>Not answered : {{winLose[2]}}</h3>
+            </div>
+          </div>
+
+          <div class="block-info2">
+            <div class="block-pourcent">
+              <h3>winrate : {{winRate}}</h3>
+            </div>
+            <div class="block-wins">
+              <h3>Wins : {{nbWins[0]}}</h3>
+            </div>
+            <div class="block-loses">
+              <h3>Loses : {{nbWins[1]}}</h3>
+            </div>
+            <div class="block-nulls">
+              <h3>Nulls : {{nbWins[2]}}</h3>
+            </div>
+        </div>
+        </div>
       </div>
+
     </div>
 
 
