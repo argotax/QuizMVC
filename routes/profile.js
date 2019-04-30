@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
     users => {
       var count = 1;
       users.forEach(function(user) {
-        if (user.user_id == 4) {
+        if (user.user_id == 4) {//a ramplacer par l'id qu'on cherche
           rang = count;
         }
         count++;
