@@ -21,8 +21,9 @@ router.get('/', function(req, res, next) {
   models.broquiz_game.findAll({
     attributes: ['game_id','game_p1', 'game_p2','game_p1_score', 'game_p2_score', 'game_p1_points', 'game_p2_points'],
     where:{
-      [Op.or]: [  {game_p1: req.session.user_id},
-                  {game_p2: req.session.user_id}],
+      game_p1_score:{
+        [Op.gt]:   {game_p2_score:game_p2_score},
+      },
       game_status: 12
     },
     include: [ { model: models.broquiz_user,attributes: ['user_login'], as: 'player_1'}, { model: models.broquiz_user,attributes: ['user_login'], as: 'player_2'}]

@@ -59,9 +59,53 @@ body {
 .block-main .block-body .block-menu {
   height: 10%;
 }
-.block-main .block-body .block-info {
+.block-main .block-body .wrapper-main{
+  margin: auto;
+  width: 80%;
+}
+
+.block-main .block-body .wrapper-main .block-pseudo {
+  margin-top: 110px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.block-main .block-body .wrapper-main .block-pseudo h2{
+  margin-left: 50px;
+  font-family: 'Font', sans-serif, 'Arial';
+}
+.block-main .block-body .wrapper-main .block-pseudo span{
+  font-size: 1.3em;
+}
+
+.block-main .block-body .wrapper-info{
+  display: flex;
+}
+
+.block-main .block-body .wrapper-main .block-info1 {
+  padding-left: 10px;
+  border-left: solid 5px white ;
+  width: 50%;
   height: 90%;
 }
+.block-main .block-body .wrapper-main .block-info2{
+  text-align: right;
+  padding-right: 10px;
+  border-right: solid 5px white ;
+  width: 50%;
+  height: 90%;
+}
+
+.block-main .block-body .wrapper-main .block-info1 h3,
+.block-main .block-body .wrapper-main .block-info2 h3 {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 5px;
+  font-family: 'Font', sans-serif, 'Arial';
+}
+.wrapper-main .block-info1 .block-win h3{
+  background-color: rgb(9, 198, 52);
+}
+
 .block-main .block-body .block-menu .fa-cog {
   color: white;
   padding: 15px;
