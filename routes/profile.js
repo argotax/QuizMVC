@@ -9,11 +9,14 @@ const sequelize = new Sequelize('broquiz', 'root', 'root', {
   dialect: 'mysql'
 });
 
-var renderPage = function(req, res) {
+var renderPage = function(req, res, values) {
   console.log('redirect');
+  console.log(values);
   res.render('profile', {
     id: req.session.user_id,
-    login: req.session.user_login
+    login: req.session.user_login,
+    rang: values[0],
+    winLose: values[1]
   });
 };
 
@@ -53,7 +56,7 @@ router.get('/', function(req, res, next) {
         users.forEach(function(user) {
           if (user.user_id == 4) { //a ramplacer par l'id qu'on cherche
             rang = count;
-            resolve();
+            resolve(rang);
           }
           count++;
         });
@@ -93,17 +96,18 @@ router.get('/', function(req, res, next) {
           } else if (result[i].round_q1_p1 == 14) {
             noAns++;
           }
-        }
+        }//end for
+        var valuesTab = [rightAns, wrongAns, noAns];
         console.log('V : ', rightAns, 'W : ', wrongAns, 'N : ', noAns);
-        resolve();
+        resolve(valuesTab);
       }).catch(function(err) {
       console.log('Error query !', err);
     });
   });
 
   Promise.all([rankQuery, winLoseQuery]).then(function(values) {
-    console.log('queries donr');
-    renderPage(req, res);
+    console.log(values[1]);
+    renderPage(req, res, values);
   });
 
 }); //end router.get /
