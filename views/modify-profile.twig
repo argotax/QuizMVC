@@ -36,4 +36,14 @@
 {% block script%}
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
+  <script charset="utf-8">
+    $(".modify-profile-picture").on({
+      mouseenter: function () {
+        $(".modify-banner-picture").css("opacity", "0");
+      },
+      mouseleave: function () {
+        $(".modify-banner-picture").css("opacity", "1");
+      }
+    });
+  </script>
 {% endblock %}
