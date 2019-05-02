@@ -39,14 +39,7 @@ models.broquiz_round.belongsTo(models.broquiz_game, {
 
 var app = express();
 router.get('/', function(req, res, next) {
-  var rang = 0;
-  var wrongAns = 0;
-  var rightAns = 0;
-  var noAns = 0;
-  var wins = 0;
-  var loses = 0;
-  var nulls = 0;
-  var winRate= 0;
+  var rang = 0, wrongAns = 0, rightAns = 0, noAns = 0, wins = 0, loses = 0, nulls = 0, winRate = 0;
 
   var rankQuery = new Promise(function(resolve, reject) {
     models.broquiz_user.findAll({
@@ -240,11 +233,7 @@ router.get('/', function(req, res, next) {
 }); //end router.get /
 
 router.get('/modify', function(req, res, next) {
-  res.render('modify-profile', {
-    id: req.session.user_id,
-    login: req.session.user_login,
-    friends: req.session.friends
-  })
+  res.render('modify-profile', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends})
 });
 
 
