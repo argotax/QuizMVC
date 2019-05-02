@@ -141,6 +141,12 @@ app.set('views', path.join(__dirname, 'views'))
   })
 
   socket.on('player-answer', function(answerResponse){
+    var score =0;
+    for (var answer in answerResponse.answer) {
+      if (answer==7) {
+        score++;
+      }
+    }
     models.broquiz_round.findAll({
       attributes: ['round_q1_p1', 'round_q1_p2'],
       where:{
@@ -150,7 +156,7 @@ app.set('views', path.join(__dirname, 'views'))
       round => {
         if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
           models.broquiz_round.update(
-            { round_q1_p1: answerResponse.answer[0], round_q2_p1: answerResponse.answer[1], round_q3_p1: answerResponse.answer[2]},
+            {round_p1_score: score, round_q1_p1: answerResponse.answer[0], round_q2_p1: answerResponse.answer[1], round_q3_p1: answerResponse.answer[2]},
             { where: { round_id: answerResponse.round } }
           )
           .catch(err =>
@@ -158,7 +164,7 @@ app.set('views', path.join(__dirname, 'views'))
           )
         } else {
           models.broquiz_round.update(
-            { round_q1_p2: answerResponse.answer[0], round_q2_p2: answerResponse.answer[1], round_q3_p2: answerResponse.answer[2]},
+            {round_p2_score: score, round_q1_p2: answerResponse.answer[0], round_q2_p2: answerResponse.answer[1], round_q3_p2: answerResponse.answer[2]},
             { where: { round_id: answerResponse.round } }
           )
           .catch(err =>
