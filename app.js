@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var Promise = require('promise');
 const session = require('express-session');
 const Sequelize = require('sequelize');
 const models = require('./models');
@@ -21,8 +22,8 @@ const partiesRouter = require('./routes/parties');
 const questionRouter = require('./routes/question');
 const classementRouter = require('./routes/classement');
 const profileRouter = require('./routes/profile');
-
 const Op = Sequelize.Op;
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -141,40 +142,131 @@ app.set('views', path.join(__dirname, 'views'))
   })
 
   socket.on('player-answer', function(answerResponse){
+    //init des variables
     var score =0;
-    for (var answer in answerResponse.answer) {
-      if (answer==7) {
+    var totalScore_p1=0;
+    var totalScore_p2=0;
+
+    for (var i = 0; i < answerResponse.answer.length; i++) {
+      if (answerResponse.answer[i] == 7) {
         score++;
       }
     }
-    models.broquiz_round.findAll({
-      attributes: ['round_q1_p1', 'round_q1_p2'],
-      where:{
-        round_game: answerResponse.game
-      }
-    }).then(
-      round => {
-        if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
-          models.broquiz_round.update(
-            {round_p1_score: score, round_q1_p1: answerResponse.answer[0], round_q2_p1: answerResponse.answer[1], round_q3_p1: answerResponse.answer[2]},
-            { where: { round_id: answerResponse.round } }
-          )
-          .catch(err =>
-            console.log('Error query !')
-          )
-        } else {
-          models.broquiz_round.update(
-            {round_p2_score: score, round_q1_p2: answerResponse.answer[0], round_q2_p2: answerResponse.answer[1], round_q3_p2: answerResponse.answer[2]},
-            { where: { round_id: answerResponse.round } }
-          )
-          .catch(err =>
-            console.log('Error query !')
-          )
+
+
+    var updateRounds = new Promise(function(resolve, reject) {
+      models.broquiz_round.findAll({
+        attributes: ['round_q1_p1', 'round_q1_p2'],
+        where:{
+          round_game: answerResponse.game
         }
-      }
-    ).catch(function (err) {
-      console.log('Error query !', err);
-      res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
+      }).then(
+        round => {
+          if (((round[round.length-1].round_q1_p1 == undefined) && (round.length%2 == 1)) || ((round[round.length-1].round_q1_p2 != undefined) && (round.length%2 == 0))){
+            models.broquiz_round.update(
+              {round_p1_score: score, round_q1_p1: answerResponse.answer[0], round_q2_p1: answerResponse.answer[1], round_q3_p1: answerResponse.answer[2]},
+              { where: { round_id: answerResponse.round } }
+            ).then(
+              resolve()
+            ).catch(err =>
+              console.log('Error query !')
+            )
+          } else {
+            models.broquiz_round.update(
+              {round_p2_score: score, round_q1_p2: answerResponse.answer[0], round_q2_p2: answerResponse.answer[1], round_q3_p2: answerResponse.answer[2]},
+              { where: { round_id: answerResponse.round } }
+            ).then(
+              resolve()
+            ).catch(err =>
+              console.log('Error query !')
+            )
+          }
+
+        }
+      ).catch(function (err) {
+        console.log('Error query !', err);
+        res.render('accueil',{id: req.session.user_id, login: req.session.user_login})
+      })
+    });
+
+    Promise.all([updateRounds]).then(function(){
+      var selectAllRounds_p1 = new Promise(function(resolve, reject){
+        models.broquiz_round.findAll({
+          attributes: [[sequelize.fn('sum', sequelize.col('round_p1_score')), 'p1score']],
+          where: {round_game: answerResponse.game}
+        }).then(
+          score_p1=>{
+            console.log('score joueur 1',  score_p1[0].dataValues.p1score);
+            resolve(score_p1[0].dataValues.p1score);
+          }
+        ).catch(
+          err =>
+          console.log('Error query !')
+        )
+      });
+      var selectAllRounds_p2 = new Promise(function(resolve, reject){
+        models.broquiz_round.findAll({
+          attributes: [[sequelize.fn('sum', sequelize.col('round_p2_score')), 'p2_score']],
+          where: {round_game: answerResponse.game}
+        }).then(
+          score_p2=>{
+            console.log('score joueur 2',  score_p2[0].dataValues.p2_score);
+            resolve(score_p2[0].dataValues.p2_score);
+          }
+        ).catch(
+          err =>
+          console.log('Error query !')
+        )
+      });
+      Promise.all([selectAllRounds_p1, selectAllRounds_p2]).then(function(gamepoints){
+        var updateGames = new Promise(function(resolve, reject){
+          console.log(gamepoints);
+          console.log('ID DE LA GAME', answerResponse.game);
+          models.broquiz_game.update(
+              { game_p1_points: gamepoints[0], game_p2_points: gamepoints[1]},
+              { where: { game_id: answerResponse.game} }
+            ).then(
+              result =>{
+                console.log(result)
+                console.log('updated')
+                resolve()
+              }
+            )
+        });
+        Promise.all([updateGames]).then(function(){
+          var selectAllGames_p1 = new Promise(function(resolve, reject){
+            models.broquiz_game.findAll({
+              attributes: ['game_p1_points'],
+              where: {game_id: answerResponse.game}
+            }).then(
+              gamePoints_p1=>{
+                console.log(gamePoints_p1);
+                resolve(gamePoints_p1);
+              }
+            ).catch(
+              err =>
+              console.log('Error query !')
+            )
+          })
+          var selectAllGames_p2 = new Promise(function(resolve, reject){
+              models.broquiz_game.findAll({
+                attributes: ['game_p2_points'],
+                where: {game_id: answerResponse.game}
+              }).then(
+                gamePoints_p2=>{
+                  console.log(gamePoints_p2);
+                  resolve(gamePoints_p2);
+                }
+              ).catch(
+                err =>
+                console.log('Error query !')
+              )
+          });
+            Promise.all([selectAllGames_p1, selectAllGames_p2]).then(function(){
+
+            })
+        })
+      })
     });
   })
 })
