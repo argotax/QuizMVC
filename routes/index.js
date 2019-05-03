@@ -47,9 +47,18 @@ router.post('/signin', function(req, res, next) {
                         if (!user) {
                             error('Cette adresse email n\'existe pas !');
                         } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
-                            success('Connected');
+                          req.session.user_id = user.user_id;
+                          req.session.user_login = user.user_login;
+                          models.broquiz_user.update({
+                              user_status: 9
+                          }, {
+                              where: {
+                                  user_id: req.session.user_id
+                              }
+                          });
+                          success('Connected');
                         } else {
-                            error('Mot de passe éronné !');
+                          error('Mot de passe éronné !');
                         }
                     }
                 );
