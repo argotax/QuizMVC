@@ -24,7 +24,6 @@ const classementRouter = require('./routes/classement');
 const profileRouter = require('./routes/profile');
 const Op = Sequelize.Op;
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 .set('view engine', 'twig')

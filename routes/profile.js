@@ -1,13 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var Promise = require('promise');
+var validator = require('validator');
 const models = require('../models');
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const sequelize = new Sequelize('broquiz', 'root', 'root', {
   host: 'localhost',
   dialect: 'mysql'
 });
+const bcrypt = require('bcrypt');
+const fs = require('fs');
+
+const saltRounds = 10;
 
 var renderPage = function(req, res, values, ansTab, nbWins, winRate) {
   res.render('profile', {
@@ -234,6 +241,102 @@ router.get('/', function(req, res, next) {
 
 router.get('/modify', function(req, res, next) {
   res.render('modify-profile', {id: req.session.user_id, login: req.session.user_login, friends: req.session.friends})
+});
+
+router.post('/verif_modif_profile', function(req, res, next) {
+
+  var modif_login = req.body.login;
+  var modif_password = req.body.newPassword;
+  var modif_confpassword = req.body.confNewPassword;
+  var modif_oldpassword = req.body.oldPassword;
+
+  var validationModif = new Promise((success, error) => {
+    if (validator.isEmpty(modif_login) || validator.isEmpty(modif_password) || validator.isEmpty(modif_confpassword) || validator.isEmpty(modif_oldpassword)) {
+        error('Tout les champs ne sont pas complets !');
+    } else if (/\s/.test(modif_login)) {
+        error('Votre pseudo ne doit pas contenir d\'espace !');
+    } else if (entities.encode(modif_login) != modif_login) {
+        error('Votre pseudo n\'est pas valide !');
+    } else if (modif_login.length < 5) {
+        error('Votre pseudo doit contenir 5 caractères minimum !');
+    } else if (modif_password.length < 5) {
+        error('Votre mot de passe doit contenir 5 caractères minimum !');
+    } else if (modif_password != modif_confpassword) {
+        error('Les mots de passe ne correspondent pas !');
+    } else if (validator.isEmpty(modif_login) == false) {
+      models
+      .broquiz_user
+      .findOne({
+        where: {
+            user_login: modif_login
+        }
+      }).then(
+          user => {
+            if (user) {
+                error('Ce pseudo est déjà utilisé !');
+            } else {
+                success('Modifié avec succès !');
+            }
+          }
+      );
+    }
+  })
+
+  validationModif.then(function(success) {
+
+    modif_login = entities.encode(modif_login);
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hash = bcrypt.hashSync(modif_password, salt);
+
+    models.broquiz_user.update(
+      { user_login: modif_login,
+        user_password: hash,
+        user_salt: salt
+      },
+      { where: { user_id: req.session.user_id } }
+    ).catch(err =>
+      console.log('Error query !')
+    )
+
+    try {
+      if (fs.existsSync("public/image/banner/"+req.session.user_login+"_banner.jpg")) {
+        fs.rename('C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/banner/'+req.session.user_login+'_banner.jpg', 'C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/banner/'+modif_login+'_banner.jpg', function (err) {
+          if (err) {
+            console.log("Fail banner name change !");
+          } else {
+            try {
+              if (fs.existsSync("public/image/profile/"+req.session.user_login+"_profile.png")) {
+                fs.rename('C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/profile/'+req.session.user_login+'_profile.png', 'C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/profile/'+modif_login+'_profile.png', function (err) {
+                  if (err) {
+                    console.log("Fail profile name change !");
+                  } else {
+                    req.session.user_login = modif_login;
+
+                    modif_error = undefined;
+
+                    modif_login = undefined;
+                    modif_password = undefined;
+                    modif_confpassword = undefined;
+                    modif_olfpassword = undefined;
+
+                    res.render('modify-profile', { modif_validate: success, id: req.session.user_id, login: req.session.user_login })
+                  }
+                });
+              }
+            } catch(err) {
+              console.error(err)
+            }
+          }
+        });
+      }
+    } catch(err) {
+      console.error(err)
+    }
+
+  }).catch(function(error) {
+    res.render('modify-profile', { modif_error: error, modif_login: modif_login, modif_password: modif_password, modif_confpassword: modif_confpassword, modif_oldpassword: modif_oldpassword, id: req.session.user_id, login: req.session.user_login });
+  });
+
 });
 
 

@@ -19,7 +19,6 @@ body {
   justify-content: flex-end;
   width: 100%;
   height: 30%;
-  background-image: url('../image/banner/angers-3.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -53,6 +52,7 @@ body {
   font-size: 1rem;
   cursor: pointer;
   padding-top: 40px;
+  transition: all 0.3s ease-out;
 }
 .block-main .block-header .modify-banner-picture:hover {
   border: 5px solid orange  ;
@@ -68,7 +68,6 @@ body {
   top: 100%;
   left: 50%;
   transform: translate(-50%,-50%);
-  background-image: url('../image/profile/street gang.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -90,6 +89,7 @@ body {
   font-size: 1rem;
   cursor: pointer;
   z-index: 2;
+  transition: all 0.3s ease-out;
 }
 .block-main .block-header .modify-profile-picture:hover {
   border: 5px solid orange;
@@ -105,7 +105,7 @@ body {
   height: 95%;
 }
 .block-main .block-body .block-info .modify-form {
-  padding: 75px 50px 0px;
+  padding: 30px 50px 0px;
 }
 .block-main .block-body .block-info .modify-form .form-group label {
   color: white;
@@ -115,9 +115,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .block-main .block-body .block-info .block-reset .reset-password button {
   padding: 0px;
+}
+
+.block-main .block-body .block-info .block-reset .block-response {
+  position:absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .send-btn {
@@ -134,7 +142,7 @@ body {
 	 cursor: pointer;
 	 width: 100%;
 	 min-width: 200px;
-	 outline: none;
+	 outline: none !important;
 	 vertical-align: middle;
 	 text-align: center;
 	 position: relative;

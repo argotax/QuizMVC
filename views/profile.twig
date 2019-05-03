@@ -3,12 +3,18 @@
 {% block css %}
   <link rel="stylesheet" href="/stylesheet/profile.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
+  <style>
+    .block-main .block-header {
+      background-image: url('../image/banner/{{login}}_banner.jpg');
+    }
+    .block-main .block-header .profile-picture {
+      background-image: url('../image/profile/{{login}}_profile.png');
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
   <div class="block-main" id="blockMain">
-
-    <a style="color:white;position:absolute" href="/accueil">Retour</a>
 
     <div class="block-header">
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
@@ -23,7 +29,7 @@
 
       <div class="wrapper-main">
         <div class="block-pseudo">
-          <h2>Goldenfinger <span class="badge badge-primary">{{rangTab[0]}}</span> </h2>
+          <h2>{{login|capitalize}}<span class="badge badge-primary">{{rangTab[0]}}</span> </h2>
         </div>
         <div class="wrapper-info">
           <div class="block-info1">

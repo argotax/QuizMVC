@@ -3,6 +3,14 @@
 {% block css %}
   <link rel="stylesheet" href="/stylesheet/modify-profile.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
+  <style>
+    .block-main .block-header {
+      background-image: url('../image/banner/{{login}}_banner.jpg');
+    }
+    .block-main .block-header .profile-picture {
+      background-image: url('../image/profile/{{login}}_profile.png');
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
@@ -24,25 +32,48 @@
 
       <div class="block-info row">
         <div class="col-6">
-          <form class="modify-form" action="" method="post">
+          <form class="modify-form" action="verif_modif_profile" method="post">
             <div class="form-group" >
               <label for="login" class="col-sm-12 col-form-label">Login</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="login">
+                {% if modif_login is defined %}
+                  <input type="text" class="form-control" name="login" value="{{modif_login}}">
+                {% else %}
+                  <input type="text" class="form-control" name="login" value="{{login}}">
+                {% endif %}
               </div>
             </div>
 
             <div class="form-group">
               <label for="newPassword" class="col-sm-12 col-form-label">Nouveau mot de passe</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="newPassword">
+                {% if modif_password is defined %}
+                  <input type="password" class="form-control" name="newPassword" placeholder="Champ non obligatoire" value="{{modif_password}}">
+                {% else %}
+                  <input type="password" class="form-control" name="newPassword" placeholder="Champ non obligatoire">
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword" class="col-sm-12 col-form-label">Confirmation</label>
+              <div class="col-sm-10">
+                {% if modif_confpassword is defined %}
+                  <input type="password" class="form-control" name="confNewPassword" placeholder="Champ non obligatoire" value="{{modif_confpassword}}">
+                {% else %}
+                  <input type="password" class="form-control" name="confNewPassword" placeholder="Champ non obligatoire">
+                {% endif %}
               </div>
             </div>
 
             <div class="form-group">
               <label for="oldPassword" class="col-sm-12 col-form-label">Ancien mot de passe</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="oldPassword">
+                {% if modif_oldpassword is defined %}
+                  <input type="password" class="form-control" name="oldPassword" value="{{modif_oldpassword}}">
+                {% else %}
+                  <input type="password" class="form-control" name="oldPassword">
+                {% endif %}
               </div>
             </div>
             <div class="text-center col-sm-10">
@@ -51,6 +82,17 @@
           </form>
         </div>
         <div class="block-reset col-6">
+
+          {% if modif_error is defined %}
+            <div class="block-response">
+              <div class="alert alert-danger" role="alert">{{modif_error}}</div>
+            </div>
+          {% elseif modif_validate is defined %}
+            <div class="block-response">
+              <div class="alert alert-success" role="alert">{{modif_validate}}</div>
+            </div>
+          {% endif %}
+
           <div class="reset-password">
             <button class="send-btn btn-reverse btn-arrow">
               <span>Mot de passe oublié
