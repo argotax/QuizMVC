@@ -251,7 +251,7 @@ router.post('/verif_modif_profile', function(req, res, next) {
   var modif_oldpassword = req.body.oldPassword;
 
   var validationModif = new Promise((success, error) => {
-    if (validator.isEmpty(modif_login) || validator.isEmpty(modif_password) || validator.isEmpty(modif_confpassword) || validator.isEmpty(modif_oldpassword)) {
+    if ((validator.isEmpty(modif_login) || validator.isEmpty(modif_oldpassword)) || (validator.isEmpty(modif_confpassword) && validator.isEmpty(modif_password) == false) || (validator.isEmpty(modif_password) && validator.isEmpty(modif_confpassword) == false)) {
         error('Tout les champs ne sont pas complets !');
     } else if (/\s/.test(modif_login)) {
         error('Votre pseudo ne doit pas contenir d\'espace !');
@@ -259,11 +259,11 @@ router.post('/verif_modif_profile', function(req, res, next) {
         error('Votre pseudo n\'est pas valide !');
     } else if (modif_login.length < 5) {
         error('Votre pseudo doit contenir 5 caractères minimum !');
-    } else if (modif_password.length < 5) {
+    } else if (validator.isEmpty(modif_password) == false && modif_password.length < 5) {
         error('Votre mot de passe doit contenir 5 caractères minimum !');
-    } else if (modif_password != modif_confpassword) {
+    } else if (validator.isEmpty(modif_password) == false && validator.isEmpty(modif_confpassword) == false && modif_password != modif_confpassword) {
         error('Les mots de passe ne correspondent pas !');
-    } else if (validator.isEmpty(modif_login) == false) {
+    } else if (validator.isEmpty(modif_login) == false && modif_login != req.session.user_login) {
       models
       .broquiz_user
       .findOne({
@@ -273,12 +273,27 @@ router.post('/verif_modif_profile', function(req, res, next) {
       }).then(
           user => {
             if (user) {
-                error('Ce pseudo est déjà utilisé !');
-            } else {
-                success('Modifié avec succès !');
+              error('Ce pseudo est déjà utilisé !');
             }
           }
       );
+      models
+      .broquiz_user
+      .findOne({
+        where: {
+            user_id: req.session.user_id
+        }
+      }).then(
+        user => {
+          if (user.user_password != bcrypt.hashSync(modif_oldpassword, user.user_salt)) {
+            error('Mot de passe éronné !');
+          } else {
+            success('Modifié avec succès !');
+          }
+        }
+      );
+    } else {
+      success('Modifié avec succès !');
     }
   })
 
