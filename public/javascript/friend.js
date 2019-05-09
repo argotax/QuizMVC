@@ -7,14 +7,14 @@ function friendRequest() {
 
 function displayFriend() {
   if (position == 0) {
-    $("#blockFriend").css("left","70%");
+    $("#blockFriend").css("right","70%");
     $("#blockMain").css("width","70%");
-    $("#leftArrow").css("transform","rotate(180deg)");
+    $("#leftArrow").css("transform","rotate(0deg)");
     position = 1;
   } else {
-    $("#blockFriend").css("left","100%");
+    $("#blockFriend").css("right","100%");
     $("#blockMain").css("width","100%");
-    $("#leftArrow").css("transform","rotate(0deg)");
+    $("#leftArrow").css("transform","rotate(180deg)");
     position = 0;
   }
 

@@ -10,14 +10,16 @@
 {% block body %}
   <div class="block-main" id="blockMain">
 
-    <a style="color:white;position:absolute" href="/disconnect">Déconnexion</a>
+    <a style="color:white;position:absolute;right:0%" href="/disconnect">Déconnexion</a>
 
     <div class="block-header">
-      <div class="login px-2">
-        {% if login is defined %}{{login|capitalize}}{% endif %}
-      </div>
-      <div class="container-i profile px-3"><a href="/profile"><i class="fa fa-user fa-2x" aria-hidden="true"></i></a></div>
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
+      <div>
+        <div class="login px-2">
+          {% if login is defined %}{{login|capitalize}}{% endif %}
+        </div>
+        <div class="container-i profile px-3"><a href="/profile"><i class="fa fa-user fa-2x" aria-hidden="true"></i></a></div>
+      </div>
     </div>
 
     <div class="block-info">
@@ -41,54 +43,6 @@
 {% endblock %}
 
 {% block script%}
-
   <script src= "/vendors/list/list.min.js" charset="utf-8"></script>
-  <script type="text/javascript">
-    var position = 0;
-
-    function friendRequest() {
-      socket.emit('friend-request', { user: '{{id}}', friend: $("#friendLogin").val() } );
-      $('#friendLogin').val('');
-    }
-
-    function displayFriend() {
-      if (position == 0) {
-        $("#blockFriend").css("left","70%");
-        $("#blockMain").css("width","70%");
-        $("#leftArrow").css("transform","rotate(180deg)");
-        position = 1;
-      } else {
-        $("#blockFriend").css("left","100%");
-        $("#blockMain").css("width","100%");
-        $("#leftArrow").css("transform","rotate(0deg)");
-        position = 0;
-      }
-
-    }
-
-    function confirmRequest(friend) {
-      socket.emit('confirm-request', { friend: friend } );
-    }
-
-    function cancelRequest(friend) {
-      socket.emit('cancel-request', { friend: friend } );
-    }
-
-    socket.on('friend-confirmed', function (data) {
-      $("#"+data.data+"-icon").html('<i class="fas fa-circle"></i>');
-      $('.friend-confirmed').css('display','block');
-      setTimeout(function() { $(".friend-confirmed").css('display','none'); }, 5000);
-    });
-
-    socket.on('friend-canceled', function (data) {
-      $("#"+data.data).css('display','none');
-      $('.friend-canceled').css('display','block');
-      setTimeout(function() { $(".friend-canceled").css('display','none'); }, 5000);
-    });
-
-    var list = new List('friend-list', {
-      valueNames: ['name']
-    });
-  </script>
-
+  <script src= "/javascript/friend.js"></script>
 {% endblock %}

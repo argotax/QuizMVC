@@ -14,11 +14,13 @@
     <a style="color:white;position:absolute" href="/accueil">Retour</a>
 
     <div class="block-header">
-      <div class="login px-2">
-        Bonjour {% if login is defined %}{{login}}{% endif %} !
-      </div>
-      <div class="container-i profile px-3"><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
+      <div>
+        <div class="login px-2">
+          Bonjour {% if login is defined %}{{login}}{% endif %} !
+        </div>
+        <div class="container-i profile px-3"><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
+      </div>
     </div>
 
     <h1 class="title">BroQuiz</h1>

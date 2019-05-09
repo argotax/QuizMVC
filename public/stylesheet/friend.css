@@ -4,8 +4,8 @@
   background-color: orange;
   position: absolute;
   top: 0%;
-  left: 100%;
-  transition: left 0.5s ease-in-out;
+  right: 100%;
+  transition: right 0.5s ease-in-out;
 }
 .block-friend .block-header {
   display: flex;

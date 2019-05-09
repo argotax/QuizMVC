@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="/stylesheet/profile.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
   <style>
-    .block-main .block-header {
+    .block-main .background {
       background-image: url('../image/banner/{{login}}_banner.jpg');
     }
     .block-main .block-header .profile-picture {
@@ -16,7 +16,7 @@
 {% block body %}
   <div class="block-main" id="blockMain">
 
-    <div class="block-header">
+    <div class="block-header background">
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
       <div class="profile-picture"></div>
     </div>
