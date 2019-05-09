@@ -98,6 +98,9 @@ body {
 .block-main .block-body {
   height: 70%;
 }
+.block-main .block-body .hide {
+  display: none;
+}
 .block-main .block-body .block-menu {
   height: 5%;
 }

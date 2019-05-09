@@ -4,11 +4,11 @@
   <link rel="stylesheet" href="/stylesheet/modify-profile.css">
   <link rel="stylesheet" href="/stylesheet/friend.css">
   <style>
-    .block-main .block-header {
+    .block-main .background {
       background-image: url('../image/banner/{{login}}_banner.jpg');
     }
     .block-main .block-header .profile-picture {
-      background-image: url('../image/profile/{{login}}_profile.png');
+      background-image: url('../image/profile/{{login}}_profile.jpg');
     }
   </style>
 {% endblock %}
@@ -16,14 +16,26 @@
 {% block body %}
   <div class="block-main" id="blockMain">
 
-    <div class="block-header">
+    <div class="block-header background">
       <div class="container-i left px-4" onclick="displayFriend()"><i class="fa fa-caret-left fa-2x" id="leftArrow" aria-hidden="true"></i></div>
       <div class="profile-picture"></div>
-      <div class="modify-banner-picture">Modifier la photo de couverture</div>
-      <div class="modify-profile-picture">Modifier la photo de profil</div>
+      <div class="modify-banner-picture" id="bannerBackground">Modifier la photo de couverture</div>
+      <div class="modify-profile-picture" id="profileBackground">Modifier la photo de profil</div>
     </div>
 
     <div class="block-body">
+
+      <div class="block-input hide">
+        <form action="./upload/banner" method="post" enctype="multipart/form-data">
+          <input type="file" id="bannerInput" name="bannerInput"/>
+          <button type="submit" name="button" id="validateUploadBanner"></button>
+        </form>
+        <form action="./upload/profile" method="post" enctype="multipart/form-data">
+          <input type="file" id="profileInput" name="profileInput"/>
+          <button type="submit" name="button" id="validateUploadProfile"></button>
+        </form>
+      </div>
+
       <div class="block-menu">
         <a style="color:white;position:absolute" href="/profile">Retour</a>
       </div>
@@ -116,6 +128,23 @@
   <script src="/vendors/list/list.min.js" charset="utf-8"></script>
   <script src= "/javascript/friend.js"></script>
   <script charset="utf-8">
+
+    $('#bannerBackground').click(function() {
+      $('#bannerInput').click();
+    });
+
+    $('#profileBackground').click(function() {
+      $('#profileInput').click();
+    });
+
+    $('#bannerInput').bind('input', function() {
+      $('#validateUploadBanner').trigger('click');
+    });
+
+    $('#profileInput').bind('input', function() {
+      $('#validateUploadProfile').trigger('click');
+    });
+
     $(".modify-profile-picture").on({
       mouseenter: function () {
         $(".modify-banner-picture").css("opacity", "0");
@@ -124,5 +153,6 @@
         $(".modify-banner-picture").css("opacity", "1");
       }
     });
+    
   </script>
 {% endblock %}

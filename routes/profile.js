@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Promise = require('promise');
+var multer = require('multer');
+var path = require('path');
 var validator = require('validator');
 const models = require('../models');
 const Entities = require('html-entities').AllHtmlEntities;
@@ -15,6 +17,33 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 
 const saltRounds = 10;
+var verifFile = true;
+
+var uploadBanner = multer({
+  fileFilter: function(req, file, callback) {
+    if(path.extname(file.originalname) !== '.jpg') {
+      verifFile = false;
+      return callback(null, true);
+    }
+    verifFile = true;
+    callback(null, true)
+  },
+  dest: './public/image/banner',
+  limits: {
+    fileSize: 10000000
+  }
+})
+var uploadProfile = multer({
+  fileFilter: function(req, file, callback) {
+    if(path.extname(file.originalname) !== '.jpg') {
+      verifFile = false;
+      return callback(null, true);
+    }
+    verifFile = true;
+    callback(null, true)
+  },
+  dest: './public/image/profile'
+})
 
 var renderPage = function(req, res, values, ansTab, nbWins, winRate) {
   res.render('profile', {
@@ -27,24 +56,11 @@ var renderPage = function(req, res, values, ansTab, nbWins, winRate) {
   });
 };
 
-models.broquiz_round.hasMany(models.broquiz_game, {
-  as: 'joueur_1',
-  foreignKey: 'game_p1'
-});
-models.broquiz_game.belongsTo(models.broquiz_round, {
-  as: 'joueur_1',
-  foreignKey: 'game_p1'
-});
-models.broquiz_game.hasMany(models.broquiz_round, {
-  as: 'game',
-  foreignKey: 'round_game'
-});
-models.broquiz_round.belongsTo(models.broquiz_game, {
-  as: 'game',
-  foreignKey: 'round_game'
-});
+models.broquiz_round.hasMany(models.broquiz_game, { as: 'joueur_1', foreignKey: 'game_p1' });
+models.broquiz_game.belongsTo(models.broquiz_round, { as: 'joueur_1', foreignKey: 'game_p1' });
+models.broquiz_game.hasMany(models.broquiz_round, { as: 'game', foreignKey: 'round_game' });
+models.broquiz_round.belongsTo(models.broquiz_game, { as: 'game', foreignKey: 'round_game' });
 
-var app = express();
 router.get('/', function(req, res, next) {
   var rang = 0, wrongAns = 0, rightAns = 0, noAns = 0, wins = 0, loses = 0, nulls = 0, winRate = 0;
 
@@ -233,7 +249,6 @@ router.get('/', function(req, res, next) {
     var ansTab = [rightAns, wrongAns, noAns];
     var nbWins = [wins, loses, nulls];
     winRate = parseFloat(wins*100/(wins+loses)).toFixed(2);
-    console.log('winrate : ', winRate);
     renderPage(req, res, values, ansTab, nbWins, winRate);
   });
 
@@ -299,6 +314,10 @@ router.post('/verif_modif_profile', function(req, res, next) {
 
   validationModif.then(function(success) {
 
+    if (validator.isEmpty(modif_password)) {
+      modif_password = modif_oldpassword;
+    }
+
     modif_login = entities.encode(modif_login);
     var salt = bcrypt.genSaltSync(saltRounds);
     var hash = bcrypt.hashSync(modif_password, salt);
@@ -315,13 +334,13 @@ router.post('/verif_modif_profile', function(req, res, next) {
 
     try {
       if (fs.existsSync("public/image/banner/"+req.session.user_login+"_banner.jpg")) {
-        fs.rename('C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/banner/'+req.session.user_login+'_banner.jpg', 'C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/banner/'+modif_login+'_banner.jpg', function (err) {
+        fs.rename('public/image/banner/'+req.session.user_login+'_banner.jpg', 'public/image/banner/'+modif_login+'_banner.jpg', function (err) {
           if (err) {
             console.log("Fail banner name change !");
           } else {
             try {
-              if (fs.existsSync("public/image/profile/"+req.session.user_login+"_profile.png")) {
-                fs.rename('C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/profile/'+req.session.user_login+'_profile.png', 'C:/Users/Pierre/Desktop/BroQuiz/quizmvc/public/image/profile/'+modif_login+'_profile.png', function (err) {
+              if (fs.existsSync("public/image/profile/"+req.session.user_login+"_profile.jpg")) {
+                fs.rename('public/image/profile/'+req.session.user_login+'_profile.jpg', 'public/image/profile/'+modif_login+'_profile.jpg', function (err) {
                   if (err) {
                     console.log("Fail profile name change !");
                   } else {
@@ -354,6 +373,52 @@ router.post('/verif_modif_profile', function(req, res, next) {
 
 });
 
+router.post('/upload/banner', uploadBanner.single('bannerInput'), function(req, res, next) {
+  try {
+    fs.unlink('public/image/banner/'+req.session.user_login+'_banner.jpg', function (err) {
+      if (err) {
+        console.log("Fail delete old banner !");
+      } else {
+        try {
+          fs.rename('public/image/banner/'+req.file.filename, 'public/image/banner/'+req.session.user_login+'_banner.jpg', function (err) {
+            if (err) {
+              console.log("Fail rename new banner !");
+            } else {
+              res.redirect('../modify');
+            }
+          });
+        } catch(err) {
+          console.error(err)
+        }
+      }
+    })
+  } catch(err) {
+    console.error(err)
+  }
+});
 
+router.post('/upload/profile', uploadProfile.single('profileInput'), function(req, res, next) {
+  try {
+    fs.unlink('public/image/profile/'+req.session.user_login+'_profile.jpg', function (err) {
+      if (err) {
+        console.log("Fail delete old profile !");
+      } else {
+        try {
+          fs.rename('public/image/profile/'+req.file.filename, 'public/image/profile/'+req.session.user_login+'_profile.jpg', function (err) {
+            if (err) {
+              console.log("Fail rename new profile !");
+            } else {
+              res.redirect('../modify');
+            }
+          });
+        } catch(err) {
+          console.error(err)
+        }
+      }
+    })
+  } catch(err) {
+    console.error(err)
+  }
+});
 
 module.exports = router;

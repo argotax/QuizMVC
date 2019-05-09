@@ -6,6 +6,7 @@ var logger = require('morgan');
 var Promise = require('promise');
 const session = require('express-session');
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const models = require('./models');
 var tools = require('./routes/function');
 const sequelize = new Sequelize('broquiz', 'root', 'root', {
@@ -22,7 +23,6 @@ const partiesRouter = require('./routes/parties');
 const questionRouter = require('./routes/question');
 const classementRouter = require('./routes/classement');
 const profileRouter = require('./routes/profile');
-const Op = Sequelize.Op;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
