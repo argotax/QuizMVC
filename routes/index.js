@@ -174,16 +174,24 @@ router.post('/signup', function(req, res, next) {
             var creation = dt.format('Y/m/d H:M:S');
 
             models
-                .broquiz_user
-                .create({
-                    user_login: signup_login,
-                    user_email: signup_email,
-                    user_password: hash,
-                    user_country: signup_country,
-                    user_points: 0,
-                    user_status: 10,
-                    user_role: 4
-                });
+            .broquiz_user
+            .create({
+                user_login: signup_login,
+                user_email: signup_email,
+                user_password: hash,
+                user_salt: salt,
+                user_country: signup_country,
+                user_points: 0,
+                user_status: 10,
+                user_role: 4
+            });
+
+            var defaultBanner = fs.createReadStream('public/image/banner/default.jpg');
+            var newBanner = fs.createWriteStream('public/image/banner/'+signup_login+'_banner.jpg');
+            defaultBanner.pipe(newBanner);
+            var defaultProfile = fs.createReadStream('public/image/profile/default.jpg');
+            var newProfile = fs.createWriteStream('public/image/profile/'+signup_login+'_profile.jpg');
+            defaultProfile.pipe(newProfile);
 
             signup_error = undefined;
 
