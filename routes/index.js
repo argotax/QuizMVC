@@ -46,19 +46,21 @@ router.post('/signin', function(req, res, next) {
                     user => {
                         if (!user) {
                             error('Cette adresse email n\'existe pas !');
-                        } else if (user.user_password == bcrypt.hashSync(signin_password, user.user_salt)) {
-                          req.session.user_id = user.user_id;
-                          req.session.user_login = user.user_login;
-                          models.broquiz_user.update({
-                              user_status: 9
-                          }, {
-                              where: {
-                                  user_id: req.session.user_id
-                              }
-                          });
-                          success('Connected');
                         } else {
-                          error('Mot de passe éronné !');
+                          bcrypt.compare(signin_password, user.user_password, function(err, res) { //compare given password and user's hash
+                            if (res) {
+                              console.log("Mot de passe correct");
+                              req.session.user_id = user.user_id;
+                              req.session.user_login = user.user_login;
+                              models.broquiz_user.update(
+                                {user_status: 9},
+                                {where: { user_id: req.session.user_id}}
+                              );
+                              success('Connected');
+                            }else {
+                              error('Mot de passe éronné !');
+                            }
+                          });
                         }
                     }
                 );
@@ -164,8 +166,7 @@ router.post('/signup', function(req, res, next) {
     validationSignup
         .then(function(success) {
             signup_login = entities.encode(signup_login);
-            var salt = bcrypt.genSaltSync(saltRounds);
-            var hash = bcrypt.hashSync(signup_password, salt);
+            var hash = bcrypt.hashSync(myPlaintextPassword, saltRounds);
             if (signup_country.indexOf('(') != -1) {
                 signup_country = (signup_country.slice(0, signup_country.indexOf('(')));
             }
@@ -178,7 +179,6 @@ router.post('/signup', function(req, res, next) {
                     user_login: signup_login,
                     user_email: signup_email,
                     user_password: hash,
-                    user_salt: salt,
                     user_country: signup_country,
                     user_points: 0,
                     user_status: 10,
